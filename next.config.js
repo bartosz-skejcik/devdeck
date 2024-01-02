@@ -1,9 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     images: {
-        unoptimized: true,
+        domains: [
+            "www.google.com",
+            "s2.googleusercontent.com",
+            "res.cloudinary.com",
+        ],
     },
-    output: "export",
 };
 
 module.exports = nextConfig;
