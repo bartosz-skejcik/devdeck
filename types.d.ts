@@ -1,5 +1,7 @@
 // User Preferences
 
+import { Article } from "./types/article";
+
 export type Shortcut = {
     name: string;
     url: string;
@@ -29,6 +31,7 @@ export interface IUserPreferences {
 // App
 
 export interface IApp {
+    currentlyReadArticle: Article | null;
     currentTab: Tab;
     editedShortcut: Shortcut | null;
     newShortcutModal: boolean;
