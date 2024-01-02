@@ -7,6 +7,7 @@ const nextConfig = {
             "res.cloudinary.com",
         ],
     },
+    output: "export",
 };
 
 module.exports = nextConfig;
