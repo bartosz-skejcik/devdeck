@@ -10,9 +10,13 @@ type Actions = {
     ) => void;
     setWallpaperChangeModal: (wallpaperChangeModal: boolean) => void;
     setCurrentTab: (currentTab: Tab) => void;
+    setCurrentReadArticle: (
+        currentlyReadArticle: IApp["currentlyReadArticle"]
+    ) => void;
 };
 
 const INITIAL_STATE: IApp = {
+    currentlyReadArticle: null,
     currentTab: Tab.home,
     editedShortcut: null,
     newShortcutModal: false,
@@ -29,4 +33,6 @@ export const useAppStore = create<IApp & Actions>((set) => ({
     setWallpaperChangeModal: (wallpaperChangeModal) =>
         set({ wallpaperChangeModal }),
     setCurrentTab: (currentTab) => set({ currentTab }),
+    setCurrentReadArticle: (currentlyReadArticle) =>
+        set({ currentlyReadArticle }),
 }));

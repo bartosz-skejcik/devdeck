@@ -21,8 +21,10 @@ export interface Article {
     published_at: Date;
     last_comment_at: Date;
     reading_time_minutes: number;
-    tag_list: string[];
-    tags: string;
+    tag_list: string;
+    tags: string[];
+    body_html?: string;
+    body_markdown: string;
     user: User;
     organization?: Organization;
     flare_tag?: FlareTag;
