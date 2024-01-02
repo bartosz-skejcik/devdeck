@@ -57,3 +57,18 @@
         @apply bg-background text-foreground;
     }
 }
+
+/* customize the scrollbar */
+
+::-webkit-scrollbar {
+    width: 0.25rem;
+    height: 0.45rem;
+}
+
+::-webkit-scrollbar-track {
+    @apply bg-background/10;
+}
+
+::-webkit-scrollbar-thumb {
+    @apply bg-primary;
+}
