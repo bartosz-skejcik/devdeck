@@ -9,7 +9,7 @@ function Articles({}: Props) {
 
     useEffect(() => {
         async function getArticles() {
-            const res = await fetch("https://dev.to/api/articles");
+            const res = await fetch("https://dev.to/api/articles/latest?top=3");
             const articles = (await res.json()) as IArticle[];
             return articles;
         }
