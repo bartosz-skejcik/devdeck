@@ -3,6 +3,7 @@
 import Articles from "@/components/articles";
 import Dock from "@/components/dock";
 import Home from "@/components/home";
+import ArticleReadModal from "@/components/modals/article-read";
 import EditShortcutModal from "@/components/modals/shortcut-edit";
 import { NewShortcutModal } from "@/components/modals/shortcut-new";
 import ChangeWallpaperModal from "@/components/modals/wallpaper-change";
@@ -24,6 +25,7 @@ export default function Page() {
 
     return (
         <>
+            <ArticleReadModal />
             <EditShortcutModal />
             <ChangeWallpaperModal />
             <NewShortcutModal />
