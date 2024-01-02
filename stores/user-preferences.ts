@@ -5,6 +5,7 @@ import { persist } from "zustand/middleware";
 import {
     BackgroundBlur,
     IUserPreferences,
+    IUserTag,
     SearchEngine,
     Shortcut,
 } from "@/types.d";
@@ -20,6 +21,8 @@ type Actions = {
     changeShortcutIndex: (from: number, to: number) => void;
     changeWallpaper: (wallpaper: string, blurLevel?: BackgroundBlur) => void;
     deleteWallpaper: () => void;
+    deleteTag: (tag: IUserTag) => void;
+    addTag: (tag: IUserTag) => void;
 };
 
 const INITIAL_STATE: IUserPreferences = {
@@ -31,6 +34,7 @@ const INITIAL_STATE: IUserPreferences = {
     shortcuts: [],
     wallpaper: "",
     backgroundBlur: BackgroundBlur.none,
+    filterTags: [],
 };
 
 export const useUserPreferences = create<IUserPreferences & Actions>()(
@@ -123,6 +127,32 @@ export const useUserPreferences = create<IUserPreferences & Actions>()(
             },
             deleteWallpaper: () => {
                 set({ wallpaper: "" });
+            },
+            deleteTag: (tag: IUserTag) => {
+                const exists = get().filterTags.some(
+                    (t) => t.name === tag.name
+                );
+
+                if (exists) {
+                    set({
+                        filterTags: get().filterTags.filter(
+                            (t) => t.name !== tag.name
+                        ),
+                    });
+                } else {
+                    throw new Error("Tag does not exist");
+                }
+            },
+            addTag: (tag: IUserTag) => {
+                const exists = get().filterTags.some(
+                    (t) => t.name === tag.name
+                );
+
+                if (exists) {
+                    throw new Error("Tag already exists");
+                } else {
+                    set({ filterTags: [...get().filterTags, tag] });
+                }
             },
         }),
         {

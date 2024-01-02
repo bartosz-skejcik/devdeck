@@ -2,6 +2,10 @@
 
 import { Article } from "./types/article";
 
+export interface IUserTag extends ITag {
+    followed: boolean;
+}
+
 export type Shortcut = {
     name: string;
     url: string;
@@ -26,6 +30,7 @@ export interface IUserPreferences {
     shortcuts: Shortcut[];
     wallpaper?: string;
     backgroundBlur: BackgroundBlur;
+    filterTags: IUserTag[];
 }
 
 // App
@@ -37,9 +42,18 @@ export interface IApp {
     newShortcutModal: boolean;
     editShortcutModal: boolean;
     wallpaperChangeModal: boolean;
+    newsSettingsModal: boolean;
 }
 
 export enum Tab {
     home = "home",
     news = "news",
+}
+
+// API
+export interface ITag {
+    id: number;
+    name: string;
+    bg_color_hex: string;
+    text_color_hex: string;
 }

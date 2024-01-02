@@ -13,6 +13,7 @@ type Actions = {
     setCurrentReadArticle: (
         currentlyReadArticle: IApp["currentlyReadArticle"]
     ) => void;
+    setNewsSettingsModal: (newsSettingsModal: boolean) => void;
 };
 
 const INITIAL_STATE: IApp = {
@@ -22,6 +23,7 @@ const INITIAL_STATE: IApp = {
     newShortcutModal: false,
     editShortcutModal: false,
     wallpaperChangeModal: false,
+    newsSettingsModal: false,
 };
 
 export const useAppStore = create<IApp & Actions>((set) => ({
@@ -35,4 +37,5 @@ export const useAppStore = create<IApp & Actions>((set) => ({
     setCurrentTab: (currentTab) => set({ currentTab }),
     setCurrentReadArticle: (currentlyReadArticle) =>
         set({ currentlyReadArticle }),
+    setNewsSettingsModal: (newsSettingsModal) => set({ newsSettingsModal }),
 }));

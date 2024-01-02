@@ -17,7 +17,14 @@ import {
 import { useAppStore } from "@/stores/app-store";
 
 // Icons
-import { Image as ImageIcon, Moon, Settings2, Sun, User } from "lucide-react";
+import {
+    Filter,
+    Image as ImageIcon,
+    Moon,
+    Settings2,
+    Sun,
+    User,
+} from "lucide-react";
 import { useTheme } from "next-themes";
 
 type Props = {};
@@ -25,7 +32,7 @@ type Props = {};
 function Settings({}: Props) {
     const { setTheme } = useTheme();
 
-    const { setWallpaperChangeModal } = useAppStore();
+    const { setWallpaperChangeModal, setNewsSettingsModal } = useAppStore();
 
     return (
         <div className="flex items-center justify-end w-1/5 gap-3">
@@ -76,7 +83,7 @@ function Settings({}: Props) {
                     </DropdownMenuSub>
                     <DropdownMenuItem asChild>
                         <button
-                            className="flex items-center w-full gap-2 text-start"
+                            className="flex items-center w-full gap-2 cursor-pointer text-start"
                             onClick={() => setWallpaperChangeModal(true)}
                         >
                             <ImageIcon
@@ -84,6 +91,15 @@ function Settings({}: Props) {
                                 className="h-[1rem] w-[1rem]"
                             />
                             <p>Change background</p>
+                        </button>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                        <button
+                            className="flex items-center w-full gap-2 cursor-pointer text-start"
+                            onClick={() => setNewsSettingsModal(true)}
+                        >
+                            <Filter size={24} className="h-[1rem] w-[1rem]" />
+                            <p>News settings</p>
                         </button>
                     </DropdownMenuItem>
                 </DropdownMenuContent>

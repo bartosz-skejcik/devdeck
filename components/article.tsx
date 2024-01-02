@@ -65,7 +65,9 @@ export default function Article({ article }: Props) {
                         {article.title}
                     </h3>
                     <p className="pt-2 text-xs transition-all duration-150 opacity-0 group-hover:grow text-start group-hover:opacity-100">
-                        {article.description}
+                        {article.description.length > 140
+                            ? article.description.substring(0, 137) + "..."
+                            : article.description}
                     </p>
                     <div className="flex items-center justify-between w-full text-muted-foreground">
                         <p className="text-sm">
