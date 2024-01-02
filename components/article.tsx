@@ -1,6 +1,8 @@
+import { useAppStore } from "@/stores/app-store";
 import { Article as IArticle } from "@/types/article";
 import {
     ArrowBigUpDash,
+    Bookmark,
     Link2,
     MessageCircle,
     Share2,
@@ -15,90 +17,111 @@ type Props = {
 };
 
 export default function Article({ article }: Props) {
+    const setCurrentReadArticle = useAppStore(
+        (state) => state.setCurrentReadArticle
+    );
+
+    async function handleOpenArticleModal() {
+        const res = await fetch(`https://dev.to/api/articles/${article.id}`);
+        const data = (await res.json()) as IArticle;
+        setCurrentReadArticle(data);
+    }
+
     return (
-        <article className="flex flex-col items-center justify-start aspect-[2/2.25] hover:border-primary transition duration-150 group h-fit w-80 bg-background text-foreground p-2.5 border border-border rounded-lg">
-            <div className="flex items-center justify-between w-full px-3 py-1">
-                <div className="flex items-center gap-2">
-                    <Image
-                        src={article.user.profile_image}
-                        alt={article.user.name}
-                        width={34}
-                        height={34}
-                        className="rounded-full"
-                    />
-                    <div className="hidden text-sm group-hover:block">
-                        {article.user.name.length > 18
-                            ? article.user.name.substring(0, 15) + "..."
-                            : article.user.name}
+        <button onClick={handleOpenArticleModal}>
+            <article className="flex flex-col items-center justify-start aspect-[2/2.5] hover:border-primary transition duration-150 group h-fit w-80 bg-background text-foreground p-2.5 border border-border rounded-lg">
+                <div className="flex items-center justify-between w-full px-3 py-1">
+                    <div className="flex items-center gap-2">
+                        <Image
+                            src={article.user.profile_image}
+                            alt={article.user.name}
+                            width={34}
+                            height={34}
+                            className="rounded-full"
+                        />
+                        <div className="hidden text-sm text-start whitespace-nowrap group-hover:block">
+                            {article.user.name.length > 16
+                                ? article.user.name.substring(0, 13) + "..."
+                                : article.user.name}
+                        </div>
+                    </div>
+                    <div className="flex items-center gap-2 transition duration-150 opacity-0 group-hover:opacity-100">
+                        <Link
+                            href={article.url}
+                            rel="noopener noreferrer"
+                            className="flex items-center gap-2 px-2 py-1.5 text-sm font-semibold rounded-md text-background dark:text-foreground bg-primary"
+                        >
+                            <span>Link</span>
+                            <Link2 size={16} />
+                        </Link>
+                        {/* add a bookmark button */}
+                        <button className="p-2 transition-all duration-200 rounded-lg text-muted-foreground hover:text-primary hover:bg-primary/10">
+                            <Bookmark size={18} />
+                        </button>
                     </div>
                 </div>
-                <div className="flex items-center gap-2 transition duration-150 opacity-0 group-hover:opacity-100">
-                    <Link
-                        href={article.url}
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-2 px-2 py-1.5 text-sm font-semibold rounded-md text-background dark:text-foreground bg-primary"
-                    >
-                        <span>Read post</span>
-                        <Link2 size={16} />
-                    </Link>
-                </div>
-            </div>
-            <div className="flex flex-col items-center justify-between px-3 py-2 grow">
-                <h3 className="text-xl font-semibold">{article.title}</h3>
-                <div className="flex items-center justify-between w-full text-muted-foreground">
-                    <p className="text-sm">
-                        {new Date(article.created_at).toLocaleDateString(
-                            "en-PL",
-                            {
-                                year: "numeric",
-                                month: "long",
-                                day: "numeric",
-                            }
-                        )}
+                <div className="flex flex-col items-center justify-between px-3 py-2 grow">
+                    <h3 className="w-full text-xl font-semibold leading-tight text-start">
+                        {article.title}
+                    </h3>
+                    <p className="pt-2 text-xs transition-all duration-150 opacity-0 group-hover:grow text-start group-hover:opacity-100">
+                        {article.description}
                     </p>
-                    <p className="flex items-center gap-1 text-sm">
-                        <Timer size={14} /> {article.reading_time_minutes} min
-                        read
-                    </p>
+                    <div className="flex items-center justify-between w-full text-muted-foreground">
+                        <p className="text-sm">
+                            {new Date(article.created_at).toLocaleDateString(
+                                "en-PL",
+                                {
+                                    year: "numeric",
+                                    month: "long",
+                                    day: "numeric",
+                                }
+                            )}
+                        </p>
+                        <p className="flex items-center gap-1 text-sm">
+                            <Timer size={14} /> {article.reading_time_minutes}{" "}
+                            min read
+                        </p>
+                    </div>
                 </div>
-            </div>
-            {article.cover_image && (
-                <Image
-                    src={article.cover_image}
-                    alt={article.title}
-                    width={320}
-                    height={360}
-                    className="w-full rounded-lg"
-                />
-            )}
-            {!article.cover_image && article.social_image && (
-                <Image
-                    src={article.social_image}
-                    alt={article.title}
-                    width={320}
-                    height={360}
-                    className="w-full rounded-lg"
-                />
-            )}
-            <div className="flex items-center w-full mt-2 justify-evenly">
-                {/* info about positive_reactions_count, comments and reading time */}
-                <InfoButton
-                    icon={<ArrowBigUpDash size={18} />}
-                    text={article.positive_reactions_count.toString()}
-                />
-                <InfoButton
-                    icon={<MessageCircle size={18} />}
-                    text={article.comments_count.toString()}
-                />
-                <InfoButton
-                    icon={<Share2 size={18} />}
-                    text=""
-                    onClick={() => {
-                        navigator.clipboard.writeText(article.url);
-                    }}
-                />
-            </div>
-        </article>
+                {article.cover_image && (
+                    <Image
+                        src={article.cover_image}
+                        alt={article.title}
+                        width={320}
+                        height={360}
+                        className="w-full rounded-lg"
+                    />
+                )}
+                {!article.cover_image && article.social_image && (
+                    <Image
+                        src={article.social_image}
+                        alt={article.title}
+                        width={320}
+                        height={360}
+                        className="w-full rounded-lg"
+                    />
+                )}
+                <div className="flex items-center w-full mt-2 justify-evenly">
+                    {/* info about positive_reactions_count, comments and reading time */}
+                    <InfoButton
+                        icon={<ArrowBigUpDash size={18} />}
+                        text={article.positive_reactions_count.toString()}
+                    />
+                    <InfoButton
+                        icon={<MessageCircle size={18} />}
+                        text={article.comments_count.toString()}
+                    />
+                    <InfoButton
+                        icon={<Share2 size={18} />}
+                        text=""
+                        onClick={() => {
+                            navigator.clipboard.writeText(article.url);
+                        }}
+                    />
+                </div>
+            </article>
+        </button>
     );
 }
 
