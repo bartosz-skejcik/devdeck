@@ -1,11 +1,12 @@
 import { Dialog, DialogClose, DialogContent } from "@/components/ui/dialog";
 import { useAppStore } from "@/stores/app-store";
 import { Button } from "@/components/ui/button";
-import { Hash, Plus, X } from "lucide-react";
+import { Hash, Loader2, Plus, X } from "lucide-react";
 import useTags from "@/hooks/use-tags";
 import clsx from "clsx";
 import { useUserPreferences } from "@/stores/user-preferences";
 import { IUserTag } from "@/types";
+import { Checkbox } from "@/components/ui/checkbox";
 
 type Props = {};
 
@@ -17,8 +18,8 @@ const sideNav = [
 ];
 
 function NewsSettingsModal({}: Props) {
-    const { tags } = useTags();
-    const { addTag, deleteTag } = useUserPreferences();
+    const { tags, loading, fetchNextPage } = useTags();
+    const { addTag, deleteTag, filterTags } = useUserPreferences();
 
     const { newsSettingsModal, setNewsSettingsModal } = useAppStore(
         (state) => state
@@ -39,7 +40,7 @@ function NewsSettingsModal({}: Props) {
             open={newsSettingsModal}
             onOpenChange={() => setNewsSettingsModal(false)}
         >
-            <DialogContent className="max-w-4xl max-h-[75vh] grid grid-cols-7 gap-0 p-0">
+            <DialogContent className="max-w-4xl max-h-[75vh] grid grid-cols-7 gap-0 p-0 overflow-y-auto">
                 <nav className="flex items-start justify-center h-full col-span-2 p-3 bg-foreground/5">
                     {sideNav.map((item, index) => (
                         <Button
@@ -52,8 +53,8 @@ function NewsSettingsModal({}: Props) {
                         </Button>
                     ))}
                 </nav>
-                <section className="flex flex-col items-center justify-start col-span-5">
-                    <div className="flex items-center justify-between w-full px-4 py-2 border-b border-border">
+                <section className="flex flex-col items-center justify-start h-full col-span-5">
+                    <div className="sticky top-0 z-10 flex items-center justify-between w-full px-4 py-2 border-b border-border bg-background">
                         <h3 className="text-xl font-semibold">Manage tags</h3>
                         <DialogClose asChild>
                             <Button type="button" variant="ghost" size="icon">
@@ -71,6 +72,37 @@ function NewsSettingsModal({}: Props) {
                             will curate your feed accordingly.
                         </p>
                     </div>
+                    <div className="flex flex-col items-start justify-start w-full gap-2 p-4">
+                        <div className="flex items-center px-2 space-x-2">
+                            <Checkbox
+                                id="follow-all"
+                                checked={tags.every((tag) => tag.followed)}
+                                onCheckedChange={(checked) => {
+                                    if (checked) {
+                                        tags.forEach((tag) => {
+                                            if (
+                                                !filterTags.find(
+                                                    (t) => t.id === tag.id
+                                                )
+                                            ) {
+                                                addTag(tag);
+                                            }
+                                        });
+                                    } else if (!checked) {
+                                        filterTags.forEach((tag) => {
+                                            deleteTag(tag);
+                                        });
+                                    }
+                                }}
+                            />
+                            <label
+                                htmlFor="follow-all"
+                                className="font-medium leading-none cursor-pointer peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                            >
+                                Follow all tags
+                            </label>
+                        </div>
+                    </div>
                     <div className="flex flex-wrap items-start justify-start w-full gap-3 p-4">
                         {tags.map((tag) => (
                             <button
@@ -87,7 +119,7 @@ function NewsSettingsModal({}: Props) {
                                 <Plus
                                     size={16}
                                     className={clsx(
-                                        "transition-all duration-200",
+                                        "transition-all duration-200 z-0",
                                         tag.followed
                                             ? "rotate-[135deg] text-background dark:text-foreground"
                                             : "rotate-0 text-foreground"
@@ -95,6 +127,20 @@ function NewsSettingsModal({}: Props) {
                                 />
                             </button>
                         ))}
+                    </div>
+                    {/* button to fetch more */}
+                    <div className="flex items-center justify-center w-full">
+                        <Button
+                            variant={loading ? "ghost" : "outline"}
+                            onClick={() => fetchNextPage()}
+                            className="flex items-center justify-center gap-2"
+                        >
+                            <span>Load more</span>
+                            <Loader2
+                                size={16}
+                                className={clsx(loading && "animate-spin")}
+                            />
+                        </Button>
                     </div>
                 </section>
             </DialogContent>

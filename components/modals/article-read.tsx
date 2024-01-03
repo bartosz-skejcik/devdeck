@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Article } from "@/types/article";
+import Reaction from "./article/reaction";
 
 type Props = {};
 
@@ -56,7 +57,19 @@ function ArticleReadModal({}: Props) {
                 })
             )) as Article[];
 
-            return articles;
+            const articlesWithReactions = (await Promise.all(
+                articles.map(async (article) => {
+                    const res = await fetch(
+                        `https://dev.to/reactions?article_id=${article.id}`
+                    );
+                    const data = await res.json();
+                    article.reactions = data;
+
+                    return article;
+                })
+            )) as Article[];
+
+            return articlesWithReactions;
         }
 
         getArticles().then((articles) =>
@@ -93,6 +106,15 @@ function ArticleReadModal({}: Props) {
                                     >
                                         #{tag}
                                     </Badge>
+                                )
+                            )}
+                    </div>
+                    <div className="flex items-start w-full gap-3 py-2">
+                        {currentlyReadArticle?.reactions
+                            ?.article_reaction_counts &&
+                            currentlyReadArticle?.reactions.article_reaction_counts.map(
+                                (reaction, index) => (
+                                    <Reaction key={index} reaction={reaction} />
                                 )
                             )}
                     </div>

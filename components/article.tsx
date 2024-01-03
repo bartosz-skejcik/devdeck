@@ -24,6 +24,13 @@ export default function Article({ article }: Props) {
     async function handleOpenArticleModal() {
         const res = await fetch(`https://dev.to/api/articles/${article.id}`);
         const data = (await res.json()) as IArticle;
+
+        const resWithReactions = await fetch(
+            `https://dev.to/reactions?article_id=${article.id}`
+        );
+        const dataWithReactions = await resWithReactions.json();
+        data.reactions = dataWithReactions;
+
         setCurrentReadArticle(data);
     }
 
@@ -62,11 +69,13 @@ export default function Article({ article }: Props) {
                 </div>
                 <div className="flex flex-col items-center justify-between px-3 py-2 grow">
                     <h3 className="w-full text-xl font-semibold leading-tight text-start">
-                        {article.title}
+                        {article.title.length > 75
+                            ? article.title.substring(0, 72) + "..."
+                            : article.title}
                     </h3>
                     <p className="pt-2 text-xs transition-all duration-150 opacity-0 group-hover:grow text-start group-hover:opacity-100">
-                        {article.description.length > 140
-                            ? article.description.substring(0, 137) + "..."
+                        {article.description.length > 90
+                            ? article.description.substring(0, 87) + "..."
                             : article.description}
                     </p>
                     <div className="flex items-center justify-between w-full text-muted-foreground">

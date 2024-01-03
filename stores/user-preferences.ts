@@ -6,6 +6,7 @@ import {
     BackgroundBlur,
     IUserPreferences,
     IUserTag,
+    ITag,
     SearchEngine,
     Shortcut,
 } from "@/types.d";
@@ -149,7 +150,7 @@ export const useUserPreferences = create<IUserPreferences & Actions>()(
                 );
 
                 if (exists) {
-                    throw new Error("Tag already exists");
+                    return "Tag already exists";
                 } else {
                     set({ filterTags: [...get().filterTags, tag] });
                 }

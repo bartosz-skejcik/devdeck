@@ -5,12 +5,15 @@ import { useEffect, useState } from "react";
 const useTags = () => {
     const [tags, setTags] = useState<IUserTag[]>([]);
     const { filterTags } = useUserPreferences();
+    const [itemCount, setItemCount] = useState(20);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         const fetchTags = async () => {
+            setLoading(true);
             try {
                 const response = await fetch(
-                    "https://dev.to/api/tags?per_page=40"
+                    `https://dev.to/api/tags?per_page=${itemCount}}`
                 );
                 const data = await response.json();
                 const tagsWithFollowedProperty = data.map((tag: ITag) => ({
@@ -37,9 +40,14 @@ const useTags = () => {
         };
 
         fetchTags();
-    }, [filterTags]);
+        setLoading(false);
+    }, [filterTags, itemCount]);
 
-    return { tags };
+    const fetchNextPage = async () => {
+        setItemCount((prev) => prev + 20);
+    };
+
+    return { tags, loading, fetchNextPage };
 };
 
 export default useTags;

@@ -28,6 +28,20 @@ export interface Article {
     user: User;
     organization?: Organization;
     flare_tag?: FlareTag;
+    reactions?: Reaction;
+}
+
+export type ArticleReactionCounts = {
+    category: string;
+    count: number;
+};
+
+export interface Reaction {
+    current_user: {
+        id: number;
+    };
+    reactions: any[];
+    article_reaction_counts: ArticleReactionCounts[];
 }
 
 export interface FlareTag {

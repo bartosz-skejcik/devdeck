@@ -14,7 +14,7 @@ function Articles({}: Props) {
             const tagsList = filterTags.map((tag) => tag.name).join(",");
             const queryString =
                 filterTags.length > 0
-                    ? `https://dev.to/api/articles?tags=${tagsList}`
+                    ? `https://dev.to/api/articles/latest?tags=${tagsList}`
                     : "https://dev.to/api/articles/latest?top=3";
             const res = await fetch(queryString);
             const articles = (await res.json()) as IArticle[];
