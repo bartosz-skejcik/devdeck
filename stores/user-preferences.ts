@@ -4,6 +4,7 @@ import { persist } from "zustand/middleware";
 
 import {
     BackgroundBlur,
+    IConnection,
     IUserPreferences,
     IUserTag,
     SearchEngine,
@@ -23,6 +24,9 @@ type Actions = {
     deleteWallpaper: () => void;
     deleteTag: (tag: IUserTag) => void;
     addTag: (tag: IUserTag) => void;
+    setSearchVisibility: (searchEnabled: boolean) => void;
+    addConnection: (connection: IConnection) => void;
+    removeConnection: (connectionName: string) => void;
 };
 
 const INITIAL_STATE: IUserPreferences = {
@@ -35,6 +39,8 @@ const INITIAL_STATE: IUserPreferences = {
     wallpaper: "",
     backgroundBlur: BackgroundBlur.none,
     filterTags: [],
+    searchEnabled: true,
+    connections: [],
 };
 
 export const useUserPreferences = create<IUserPreferences & Actions>()(
@@ -152,6 +158,35 @@ export const useUserPreferences = create<IUserPreferences & Actions>()(
                     return "Tag already exists";
                 } else {
                     set({ filterTags: [...get().filterTags, tag] });
+                }
+            },
+            setSearchVisibility: (searchEnabled: boolean) => {
+                set({ searchEnabled });
+            },
+            addConnection: (connection: IConnection) => {
+                const exists = get().connections.some(
+                    (c) => c.name === connection.name
+                );
+
+                if (exists) {
+                    throw new Error("Connection already exists");
+                } else {
+                    set({ connections: [...get().connections, connection] });
+                }
+            },
+            removeConnection: (connectionName: string) => {
+                const exists = get().connections.some(
+                    (c) => c.name === connectionName
+                );
+
+                if (exists) {
+                    set({
+                        connections: get().connections.filter(
+                            (c) => c.name !== connectionName
+                        ),
+                    });
+                } else {
+                    throw new Error("Connection does not exist");
                 }
             },
         }),

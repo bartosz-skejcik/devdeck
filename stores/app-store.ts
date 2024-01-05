@@ -14,6 +14,8 @@ type Actions = {
         currentlyReadArticle: IApp["currentlyReadArticle"]
     ) => void;
     setNewsSettingsModal: (newsSettingsModal: boolean) => void;
+    setLayoutSettingsModal: (layoutSettingsModal: boolean) => void;
+    setAccountConnectionsModal: (accountConnectionsModal: boolean) => void;
 };
 
 const INITIAL_STATE: IApp = {
@@ -24,6 +26,8 @@ const INITIAL_STATE: IApp = {
     editShortcutModal: false,
     wallpaperChangeModal: false,
     newsSettingsModal: false,
+    layoutSettingsModal: false,
+    accountConnectionsModal: false,
 };
 
 export const useAppStore = create<IApp & Actions>((set) => ({
@@ -38,4 +42,8 @@ export const useAppStore = create<IApp & Actions>((set) => ({
     setCurrentReadArticle: (currentlyReadArticle) =>
         set({ currentlyReadArticle }),
     setNewsSettingsModal: (newsSettingsModal) => set({ newsSettingsModal }),
+    setLayoutSettingsModal: (layoutSettingsModal) =>
+        set({ layoutSettingsModal }),
+    setAccountConnectionsModal: (accountConnectionsModal) =>
+        set({ accountConnectionsModal }),
 }));

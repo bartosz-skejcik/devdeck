@@ -2,13 +2,14 @@
 
 import { Button } from "@/components/ui/button";
 import { Home, Newspaper, Plus } from "lucide-react";
-import Settings from "@/components/dock/settings";
 import { useUserPreferences } from "@/stores/user-preferences";
 import { useAppStore } from "@/stores/app-store";
 import useStore from "@/hooks/use-store";
 import Shortcut from "@/components/shortcut";
 import ShortcutSkeleton from "./shortcut/skeleton";
 import { Tab } from "@/types.d";
+import SettingsDropdown from "./dock/dropdown/settings";
+import AccountDropdown from "./dock/dropdown/account";
 
 type Props = {};
 
@@ -58,7 +59,10 @@ function Dock({}: Props) {
                     <Plus size={24} />
                 </Button>
             </div>
-            <Settings />
+            <div className="flex items-center justify-end w-1/5 gap-3">
+                <SettingsDropdown />
+                <AccountDropdown />
+            </div>
         </div>
     );
 }

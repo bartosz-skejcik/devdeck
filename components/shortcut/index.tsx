@@ -58,7 +58,6 @@ function Shortcut({ shortcut }: Props) {
                             <Button asChild variant="outline" size="icon">
                                 <Link
                                     href={shortcut.url}
-                                    target="_blank"
                                     rel="noopener noreferrer"
                                 >
                                     <Image

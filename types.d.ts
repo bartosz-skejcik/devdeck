@@ -25,12 +25,20 @@ export type SearchEngine = {
     icon: string;
 };
 
+export interface IConnection {
+    apiKey: string;
+    name: string;
+    email: string;
+    organizationDomain?: string;
+}
 export interface IUserPreferences {
     searchEngine: SearchEngine;
     shortcuts: Shortcut[];
     wallpaper?: string;
     backgroundBlur: BackgroundBlur;
     filterTags: IUserTag[];
+    searchEnabled: boolean;
+    connections: IConnection[];
 }
 
 // App
@@ -43,6 +51,8 @@ export interface IApp {
     editShortcutModal: boolean;
     wallpaperChangeModal: boolean;
     newsSettingsModal: boolean;
+    layoutSettingsModal: boolean;
+    accountConnectionsModal: boolean;
 }
 
 export enum Tab {

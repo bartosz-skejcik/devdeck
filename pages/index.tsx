@@ -3,13 +3,16 @@
 import Articles from "@/components/articles";
 import Dock from "@/components/dock";
 import Home from "@/components/home";
-import ArticleReadModal from "@/components/modals/article-read";
-import NewsSettingsModal from "@/components/modals/news-settings";
-import EditShortcutModal from "@/components/modals/shortcut-edit";
-import { NewShortcutModal } from "@/components/modals/shortcut-new";
-import ChangeWallpaperModal from "@/components/modals/wallpaper-change";
+import {
+    AccountConnectionsModal,
+    ArticleReadModal,
+    DisplaySettingsModal,
+    NewsSettingsModal,
+    EditShortcutModal,
+    ChangeWallpaperModal,
+    NewShortcutModal,
+} from "@/components/modals";
 import Search from "@/components/search";
-import { Toaster } from "@/components/ui/toaster";
 import useStore from "@/hooks/use-store";
 import { useAppStore } from "@/stores/app-store";
 import { useUserPreferences } from "@/stores/user-preferences";
@@ -23,9 +26,15 @@ export default function Page() {
         useUserPreferences,
         (state) => state.backgroundBlur
     );
+    const searchEnabled = useStore(
+        useUserPreferences,
+        (state) => state.searchEnabled
+    );
 
     return (
         <>
+            <AccountConnectionsModal />
+            <DisplaySettingsModal />
             <NewsSettingsModal />
             <ArticleReadModal />
             <EditShortcutModal />
@@ -33,7 +42,7 @@ export default function Page() {
             <NewShortcutModal />
             <div
                 className={clsx(
-                    "absolute inset-0 z-0 w-full h-full opacity-25 dark:opacity-10",
+                    "absolute inset-0 z-0 w-full h-full opacity-25 dark:opacity-10 bg-center bg-no-repeat bg-cover",
                     backgroundBlur == BackgroundBlur.none
                         ? ""
                         : backgroundBlur == BackgroundBlur.low
@@ -55,7 +64,7 @@ export default function Page() {
             <section className="relative z-10 flex flex-col items-center justify-end w-screen h-screen gap-6 p-10 bg-center bg-cover">
                 {currentTab == "home" && <Home />}
                 {currentTab == "news" && <Articles />}
-                <Search />
+                {searchEnabled && <Search />}
                 <Dock />
             </section>
             {/* <Toaster /> */}
