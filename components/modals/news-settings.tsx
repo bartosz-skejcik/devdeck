@@ -129,7 +129,7 @@ function NewsSettingsModal({}: Props) {
                         ))}
                     </div>
                     {/* button to fetch more */}
-                    <div className="flex items-center justify-center w-full">
+                    <div className="flex items-center justify-center w-full px-4 pb-2">
                         <Button
                             variant={loading ? "ghost" : "outline"}
                             onClick={() => fetchNextPage()}

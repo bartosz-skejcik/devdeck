@@ -14,6 +14,7 @@ import useStore from "@/hooks/use-store";
 import { useAppStore } from "@/stores/app-store";
 import { useUserPreferences } from "@/stores/user-preferences";
 import { useToast } from "@/components/ui/use-toast";
+import { FormEvent } from "react";
 
 type Props = {};
 
@@ -25,9 +26,13 @@ function EditShortcutModal({}: Props) {
 
     const userPreferences = useStore(useUserPreferences, (state) => state);
 
-    function handleShortcutEdit(event: FormData) {
-        const name = event.get("name") as string;
-        const url = event.get("url") as string;
+    function handleShortcutEdit(event: FormEvent<HTMLFormElement>) {
+        event.preventDefault();
+
+        const formData = new FormData(event.currentTarget);
+
+        const name = formData.get("name") as string;
+        const url = formData.get("url") as string;
         const icon = `https://s2.googleusercontent.com/s2/favicons?domain=${url}&sz=64`;
 
         if (
@@ -61,7 +66,7 @@ function EditShortcutModal({}: Props) {
             }}
         >
             <DialogContent className="sm:max-w-[425px]">
-                <form action={handleShortcutEdit}>
+                <form onSubmit={handleShortcutEdit}>
                     <DialogHeader>
                         <DialogTitle>
                             Edit <span>{editedShortcut?.name}</span>

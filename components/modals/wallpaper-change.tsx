@@ -21,6 +21,7 @@ import { useAppStore } from "@/stores/app-store";
 import { useUserPreferences } from "@/stores/user-preferences";
 import { useToast } from "@/components/ui/use-toast";
 import { BackgroundBlur } from "@/types.d";
+import { FormEvent } from "react";
 
 type Props = {};
 
@@ -48,9 +49,13 @@ function ChangeWallpaperModal({}: Props) {
         }
     }
 
-    const handleWallpaperChange = (e: FormData) => {
-        const url = e.get("url") as string;
-        const blur = e.get("blur") as string;
+    const handleWallpaperChange = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        const formData = new FormData(e.currentTarget);
+
+        const url = formData.get("url") as string;
+        const blur = formData.get("blur") as string;
 
         if (url && url !== "") {
             try {
@@ -77,7 +82,7 @@ function ChangeWallpaperModal({}: Props) {
             }}
         >
             <DialogContent className="sm:max-w-[515px]">
-                <form action={handleWallpaperChange}>
+                <form onSubmit={handleWallpaperChange}>
                     <DialogHeader>
                         <DialogTitle>Change the background</DialogTitle>
                         <DialogDescription>

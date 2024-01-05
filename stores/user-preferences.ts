@@ -6,7 +6,6 @@ import {
     BackgroundBlur,
     IUserPreferences,
     IUserTag,
-    ITag,
     SearchEngine,
     Shortcut,
 } from "@/types.d";

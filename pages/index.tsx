@@ -58,7 +58,7 @@ export default function Page() {
                 <Search />
                 <Dock />
             </section>
-            <Toaster />
+            {/* <Toaster /> */}
         </>
     );
 }

@@ -13,6 +13,7 @@ import { Label } from "@/components/ui/label";
 import { useAppStore } from "@/stores/app-store";
 import { useUserPreferences } from "@/stores/user-preferences";
 import { useToast } from "@/components/ui/use-toast";
+import { FormEvent } from "react";
 
 export function NewShortcutModal() {
     const { toast } = useToast();
@@ -21,9 +22,13 @@ export function NewShortcutModal() {
         useAppStore();
     const { addShortcut } = useUserPreferences();
 
-    const handleShortcutAdd = (e: FormData) => {
-        const name = e.get("name") as string;
-        const url = e.get("url") as string;
+    const handleShortcutAdd = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        const formData = new FormData(e.currentTarget);
+
+        const name = formData.get("name") as string;
+        const url = formData.get("url") as string;
         const icon = `https://s2.googleusercontent.com/s2/favicons?domain=${url}&sz=64`;
 
         if (name && name !== "" && url && url !== "") {
@@ -46,7 +51,7 @@ export function NewShortcutModal() {
             }}
         >
             <DialogContent className="sm:max-w-[425px]">
-                <form action={handleShortcutAdd}>
+                <form onSubmit={handleShortcutAdd}>
                     <DialogHeader>
                         <DialogTitle>Add new shortcut</DialogTitle>
                         <DialogDescription>
