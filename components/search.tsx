@@ -42,6 +42,7 @@ function Search({}: Props) {
             )}
             <input
                 name="search"
+                autoComplete="off"
                 className="w-full h-full p-1 text-xl bg-transparent outline-none text-neutral-700 dark:text-foreground"
                 type="text"
             />

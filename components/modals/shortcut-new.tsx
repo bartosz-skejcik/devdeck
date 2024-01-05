@@ -15,7 +15,7 @@ import { useUserPreferences } from "@/stores/user-preferences";
 import { useToast } from "@/components/ui/use-toast";
 import { FormEvent } from "react";
 
-export function NewShortcutModal() {
+export default function NewShortcutModal() {
     const { toast } = useToast();
 
     const { newShortcutModal: shortcutModalOpen, setNewShortcutModal } =
