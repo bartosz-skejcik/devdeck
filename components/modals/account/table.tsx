@@ -29,6 +29,7 @@ function ConnectionsTable({ table, setNewConnectionModalOpen }: Props) {
     const removeConnection = useUserPreferences(
         (state) => state.removeConnection
     );
+    const connections = useUserPreferences((state) => state.connections);
     return (
         <Table>
             <TableCaption>A list of your recent invoices.</TableCaption>
@@ -89,7 +90,15 @@ function ConnectionsTable({ table, setNewConnectionModalOpen }: Props) {
                                 </button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent>
-                                <DropdownMenuItem asChild>
+                                <DropdownMenuItem
+                                    asChild
+                                    disabled={
+                                        !!connections.find(
+                                            (connection) =>
+                                                connection.name === "Atlassian"
+                                        )
+                                    }
+                                >
                                     <button
                                         onClick={() => {
                                             setNewConnectionModalOpen(
@@ -105,7 +114,16 @@ function ConnectionsTable({ table, setNewConnectionModalOpen }: Props) {
                                         <p>Atlassian</p>
                                     </button>
                                 </DropdownMenuItem>
-                                <DropdownMenuItem asChild>
+                                <DropdownMenuItem
+                                    asChild
+                                    // disabled={
+                                    //     !!connections.find(
+                                    //         (connection) =>
+                                    //             connection.name === "Github"
+                                    //     )
+                                    // }
+                                    disabled
+                                >
                                     <s>
                                         <button
                                             onClick={() => {
@@ -113,8 +131,7 @@ function ConnectionsTable({ table, setNewConnectionModalOpen }: Props) {
                                                     "github"
                                                 );
                                             }}
-                                            disabled
-                                            className="flex items-center justify-start w-full gap-2 cursor-pointer cursor-not-allowed text-start"
+                                            className="flex items-center justify-start w-full gap-2 cursor-not-allowed text-start"
                                         >
                                             <Github
                                                 size={24}

@@ -41,7 +41,7 @@ const useIssues = (connection: IConnection) => {
         fetchData(connection);
     }, [connection]);
 
-    return { issues, loading };
+    return { issues, setIssues, loading };
 };
 
 export default useIssues;
