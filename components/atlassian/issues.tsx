@@ -51,7 +51,8 @@ function Issues({}: Props) {
                         {issue.fields.summary}
                     </h3>
                     <p>
-                        {issue.fields.description.content &&
+                        {issue.fields.description &&
+                        issue.fields.description.content &&
                         issue.fields.description.content.length > 0
                             ? issue.fields.description.content[0].content[0]
                                   .text
