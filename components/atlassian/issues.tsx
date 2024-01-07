@@ -46,7 +46,6 @@ function Issues({}: Props) {
                     >
                         {issue.fields.status.name}
                     </p>
-                    <p>{issue.fields.description.content[0].content[0].text}</p>
                 </div>
             ))}
         </div>
