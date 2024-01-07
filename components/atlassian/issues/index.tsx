@@ -58,6 +58,10 @@ function Issues({}: Props) {
                                     {issue.fields.description &&
                                         issue.fields.description.content
                                             .length > 0 &&
+                                        issue.fields.description.content[0]
+                                            .content[0] &&
+                                        issue.fields.description.content[0]
+                                            .content[0].text &&
                                         issue.fields.description.content[0].content[0].text.slice(
                                             0,
                                             50
