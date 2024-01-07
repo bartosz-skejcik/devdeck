@@ -46,6 +46,17 @@ function Issues({}: Props) {
                     >
                         {issue.fields.status.name}
                     </p>
+                    <h3 className="whitespace-nowrap">
+                        {/* title of the task*/}
+                        {issue.fields.summary}
+                    </h3>
+                    <p>
+                        {issue.fields.description.content &&
+                        issue.fields.description.content.length > 0
+                            ? issue.fields.description.content[0].content[0]
+                                  .text
+                            : "-----------"}
+                    </p>
                 </div>
             ))}
         </div>
