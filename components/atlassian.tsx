@@ -4,7 +4,7 @@ type Props = {};
 
 function Atlassian({}: Props) {
     return (
-        <div className="flex flex-wrap justify-center w-full h-full gap-5 overflow-y-auto grow">
+        <div className="grid flex-grow w-full h-[75vh] grid-cols-6 grid-rows-4 gap-5">
             {/* //TODO Issues (filters[all/my]) */}
             {/* //TODO Open PRs */}
             <Issues />

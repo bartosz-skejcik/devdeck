@@ -63,9 +63,9 @@ export default function Page() {
                 }
             />
             <section className="relative z-10 flex flex-col items-center justify-end w-screen h-screen gap-6 p-10 bg-center bg-cover">
+                {currentTab == "atlassian" && <Atlassian />}
                 {currentTab == "home" && <Home />}
                 {currentTab == "news" && <Articles />}
-                {currentTab == "atlassian" && <Atlassian />}
                 {searchEnabled && <Search />}
                 <Dock />
             </section>
