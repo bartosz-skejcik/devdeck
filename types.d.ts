@@ -58,6 +58,7 @@ export interface IApp {
 export enum Tab {
     home = "home",
     news = "news",
+    atlassian = "atlassian",
 }
 
 // API

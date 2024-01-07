@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
 import { useUserPreferences } from "@/stores/user-preferences";
+import Link from "next/link";
 import { FormEvent } from "react";
 
 type Props = {
@@ -88,6 +89,19 @@ export function NewConnectionModal({ open, setOpen, provider }: Props) {
                     <DialogDescription>
                         Connect your account to {provider}. Input the required
                         data to connect your account.
+                        {provider === "atlassian" && (
+                            <>
+                                <br />
+                                Generate your API key{" "}
+                                <Link
+                                    target="_blank"
+                                    href="https://id.atlassian.com/manage-profile/security/api-tokens"
+                                    className="text-primary"
+                                >
+                                    here
+                                </Link>
+                            </>
+                        )}
                     </DialogDescription>
                 </DialogHeader>
                 <form
@@ -125,6 +139,7 @@ export function NewConnectionModal({ open, setOpen, provider }: Props) {
                         </Label>
                         <Input
                             id="apikey"
+                            type="text"
                             placeholder="sdSDFgshdo2134oheqfSfsfauhio13"
                             className="col-span-3"
                         />

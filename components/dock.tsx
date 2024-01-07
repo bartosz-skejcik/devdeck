@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Home, Newspaper, Plus } from "lucide-react";
+import { Home, Newspaper, Plus, Trello } from "lucide-react";
 import { useUserPreferences } from "@/stores/user-preferences";
 import { useAppStore } from "@/stores/app-store";
 import useStore from "@/hooks/use-store";
@@ -38,6 +38,17 @@ function Dock({}: Props) {
                         }}
                         size={24}
                         className={currentTab == "news" ? "text-primary" : ""}
+                    />
+                </Button>
+                <Button variant="ghost" size="icon">
+                    <Trello
+                        onClick={() => {
+                            setCurrentTab && setCurrentTab(Tab.atlassian);
+                        }}
+                        size={24}
+                        className={
+                            currentTab == "atlassian" ? "text-primary" : ""
+                        }
                     />
                 </Button>
             </div>
