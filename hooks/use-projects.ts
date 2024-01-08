@@ -11,7 +11,7 @@ const useProjects = (connection: IConnection) => {
             setLoading(true);
             try {
                 const pickerResponse = await fetch(
-                    `http://192.168.149.229:3001/proxy`,
+                    `http://localhost:3001/proxy`,
                     {
                         method: "POST",
                         headers: {
