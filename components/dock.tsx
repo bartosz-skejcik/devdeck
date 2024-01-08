@@ -19,6 +19,12 @@ function Dock({}: Props) {
         (state) => state.setNewShortcutModal
     );
     const { currentTab, setCurrentTab } = useAppStore((state) => state);
+
+    const connections = useStore(
+        useUserPreferences,
+        (state) => state.connections
+    );
+
     return (
         <div className="flex items-center w-full p-2 border rounded-lg border-border justify-evenly bg-background text-foreground">
             <div className="flex items-center justify-start w-1/5 gap-3">
@@ -40,17 +46,30 @@ function Dock({}: Props) {
                         className={currentTab == "news" ? "text-primary" : ""}
                     />
                 </Button>
-                <Button variant="ghost" size="icon">
-                    <Trello
-                        onClick={() => {
-                            setCurrentTab && setCurrentTab(Tab.atlassian);
-                        }}
-                        size={24}
-                        className={
-                            currentTab == "atlassian" ? "text-primary" : ""
-                        }
-                    />
-                </Button>
+                {connections &&
+                    connections.map(
+                        (con) =>
+                            con.name == "Atlassian" && (
+                                <Button
+                                    key={con.apiKey}
+                                    variant="ghost"
+                                    size="icon"
+                                >
+                                    <Trello
+                                        onClick={() => {
+                                            setCurrentTab &&
+                                                setCurrentTab(Tab.atlassian);
+                                        }}
+                                        size={24}
+                                        className={
+                                            currentTab == "atlassian"
+                                                ? "text-primary"
+                                                : ""
+                                        }
+                                    />
+                                </Button>
+                            )
+                    )}
             </div>
             <div className="flex items-center justify-between gap-6 mx-auto">
                 {shortcuts ? (

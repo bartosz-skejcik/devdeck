@@ -1,4 +1,5 @@
 import Issues from "@/components/atlassian/issues";
+import HallOfFame from "@/components/atlassian/hall-of-fame";
 
 type Props = {};
 
@@ -8,6 +9,7 @@ function Atlassian({}: Props) {
             {/* //TODO Issues (filters[all/my]) */}
             {/* //TODO Open PRs */}
             <Issues />
+            <HallOfFame />
         </div>
     );
 }

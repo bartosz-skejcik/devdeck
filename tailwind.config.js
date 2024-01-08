@@ -7,6 +7,11 @@ module.exports = {
         "./app/**/*.{ts,tsx}",
         "./src/**/*.{ts,tsx}",
     ],
+    safelist: [
+        {
+            pattern: /(from|to)-+/, // 👈  This includes bg of all colors and shades
+        },
+    ],
     prefix: "",
     theme: {
         container: {
