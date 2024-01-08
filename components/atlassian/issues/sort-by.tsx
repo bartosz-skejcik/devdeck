@@ -39,31 +39,30 @@ const sortOptions = {
 
 function SortBy({ issues, setIssues }: Props) {
     function sortIssues(sortBy: string) {
-        const sortedIssues = issues.sort((a, b) => {
-            if (sortBy === "low2high") {
-                return (
-                    Number(a.fields.priority.id) - Number(b.fields.priority.id)
-                );
-            } else if (sortBy === "high2low") {
-                return (
-                    Number(b.fields.priority.id) - Number(a.fields.priority.id)
-                );
-            } else if (sortBy === "nearest") {
-                return (
-                    new Date(a.fields.duedate!).getDate() -
-                    new Date(b.fields.duedate!).getDate()
-                );
-            } else if (sortBy === "furthest") {
-                return (
-                    new Date(b.fields.duedate!).getDate() -
-                    new Date(a.fields.duedate!).getDate()
-                );
-            } else {
-                return 0;
-            }
-        });
+        const sortFunctionMap = {
+            low2high: (a: IssueElement, b: IssueElement) =>
+                Number(b.fields.priority.id) - Number(a.fields.priority.id),
+            high2low: (a: IssueElement, b: IssueElement) =>
+                Number(a.fields.priority.id) - Number(b.fields.priority.id),
+            nearest: (a: IssueElement, b: IssueElement) => {
+                if (!a.fields.duedate && !b.fields.duedate) return 0;
+                if (!a.fields.duedate) return 1;
+                if (!b.fields.duedate) return -1;
+
+                const dateA = new Date(a.fields.duedate);
+                const dateB = new Date(b.fields.duedate);
+
+                return dateA.getTime() - dateB.getTime();
+            },
+            furthest: (a: IssueElement, b: IssueElement) =>
+                new Date(b.fields.duedate!).getTime() -
+                new Date(a.fields.duedate!).getTime(),
+        } as any;
+
+        const sortedIssues = [...issues].sort(
+            sortFunctionMap[sortBy] || (() => 0)
+        );
         setIssues(sortedIssues);
-        console.log(sortedIssues);
     }
 
     return (
@@ -77,7 +76,6 @@ function SortBy({ issues, setIssues }: Props) {
             </SelectTrigger>
             <SelectContent>
                 <SelectGroup>
-                    <SelectItem value="cancel">Delete sort</SelectItem>
                     <SelectLabel>Priority</SelectLabel>
                     {sortOptions.priority.map((option) => (
                         <SelectItem value={option.value} key={option.value}>
