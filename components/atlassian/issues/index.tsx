@@ -18,7 +18,7 @@ const dueDate = (date: Date | null) => {
     const today = new Date();
     const due = new Date(date);
 
-    const diffTime = Math.abs(due.getTime() - today.getTime());
+    const diffTime = due.getTime() - today.getTime();
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
     if (diffDays === 0) {
@@ -68,40 +68,24 @@ function Issues({}: Props) {
     }, [issues]);
 
     useEffect(() => {
-        if (project) {
-            if (project === "all") {
-                setFilteredIssues(issues);
-            } else {
-                setFilteredIssues(
-                    issues.filter(
-                        (issue) => issue.fields.project.id === project
-                    )
-                );
-            }
-        }
-    }, [project]);
+        if (project || priority) {
+            let filteredIssues = issues;
 
-    useEffect(() => {
-        if (priority) {
-            if (priority === "all") {
-                if (project === "all" || !project) {
-                    setFilteredIssues(issues);
-                } else {
-                    setFilteredIssues(
-                        issues.filter(
-                            (issue) => issue.fields.project.id === project
-                        )
-                    );
-                }
-            } else {
-                setFilteredIssues(
-                    filteredIssues.filter(
-                        (issue) => issue.fields.priority.id === priority
-                    )
+            if (project && project !== "all") {
+                filteredIssues = filteredIssues.filter(
+                    (issue) => issue.fields.project.id === project
                 );
             }
+
+            if (priority && priority !== "all") {
+                filteredIssues = filteredIssues.filter(
+                    (issue) => issue.fields.priority.id === priority
+                );
+            }
+
+            setFilteredIssues(filteredIssues);
         }
-    }, [priority]);
+    }, [project, priority, issues]);
 
     if (loading) {
         return (
