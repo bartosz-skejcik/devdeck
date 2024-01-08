@@ -19,7 +19,7 @@ function ArticlesWidget({ articles }: Props) {
     }, [articles]);
 
     return (
-        <Card className="flex items-start justify-center col-span-2 row-span-3 py-2">
+        <Card className="flex items-start justify-center col-span-3 row-span-5 py-2 2xl:row-span-3 2xl:col-span-2">
             <CardContent className="w-full space-y-2">
                 <h3 className="text-lg font-semibold">Most Recent Articles</h3>
                 {mostRecentArticles.map((article) => (

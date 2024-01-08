@@ -7,9 +7,7 @@
         "build": "next build",
         "start": "next start",
         "lint": "next lint",
-        "copy-out": "mv out/_next out/next && rsync -va --delete-after out/next/ ./extension/next/ && rm -rf out",
-        "copy-public": "cp public/images/* extension/images",
-        "export": "next build && npm run copy-out"
+        "export": "cp -r out/_next out/next && cp -r out/* extension && sed -i 's/_next/next/g' extension/index.html && rm -r out && rm -r extension/_next"
     },
     "dependencies": {
         "@radix-ui/react-checkbox": "^1.0.4",

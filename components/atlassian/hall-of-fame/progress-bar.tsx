@@ -17,7 +17,7 @@ function ProgressBar({ progress, name, color }: Props) {
                             "h-2 rounded-full",
                             `bg-gradient-to-r from-${
                                 color.split("-")[0]
-                            }-600 to-${color.split("-")[0]}-400`
+                            }-600 to-${color.split("-")[0]}-500`
                         )}
                         style={{ width: `${progress}%` }}
                     ></div>

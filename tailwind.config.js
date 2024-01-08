@@ -9,7 +9,9 @@ module.exports = {
     ],
     safelist: [
         {
-            pattern: /(from|to)-+/, // 👈  This includes bg of all colors and shades
+            // pattern: /(from|to)-+/, // 👈  This includes bg of all colors and shades
+            // only for from and bg blue, red, green
+            pattern: /(from|to)-(blue|yellow|green)-(600|500|400)/,
         },
     ],
     prefix: "",
