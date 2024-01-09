@@ -50,7 +50,7 @@ export function NewConnectionModal({ open, setOpen, provider }: Props) {
 
         try {
             if (email !== "") {
-                if (provider === "github") {
+                if (provider.toLowerCase() === "github") {
                     const apikey = e.currentTarget.apikey.value;
 
                     if (apikey === "") {
@@ -64,7 +64,7 @@ export function NewConnectionModal({ open, setOpen, provider }: Props) {
                             provider.charAt(0).toUpperCase() +
                             provider.slice(1),
                     });
-                } else if (provider === "atlassian") {
+                } else if (provider.toLowerCase() === "atlassian") {
                     const organizationDomain =
                         e.currentTarget["organization-domain"].value;
                     const apikey = e.currentTarget.apikey.value;
@@ -81,7 +81,7 @@ export function NewConnectionModal({ open, setOpen, provider }: Props) {
                             provider.slice(1),
                         organizationDomain,
                     });
-                } else if (provider === "spotify") {
+                } else if (provider.toLowerCase() === "spotify") {
                     const hash =
                         e.currentTarget.hash.value ?? generateClientStateHash();
 
