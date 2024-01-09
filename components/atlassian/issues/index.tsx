@@ -64,16 +64,20 @@ function Issues({}: Props) {
             <div className="flex items-center justify-between w-full pb-3">
                 <h2 className="text-xl font-semibold">Your issues</h2>
                 <div className="flex items-center gap-2">
-                    <SortBy
-                        issues={filteredIssues}
-                        setIssues={setFilteredIssues}
-                    />
+                    {filteredIssues && filteredIssues.length > 0 && (
+                        <SortBy
+                            issues={filteredIssues}
+                            setIssues={setFilteredIssues}
+                        />
+                    )}
                     <PriorityFilter setPriority={setPriority} />
-                    <ProjectsFilter
-                        projects={projects}
-                        setProject={setProject}
-                        projectsLoading={projectsLoading}
-                    />
+                    {projects.length > 0 && (
+                        <ProjectsFilter
+                            projects={projects}
+                            setProject={setProject}
+                            projectsLoading={projectsLoading}
+                        />
+                    )}
                 </div>
             </div>
             <div className="w-full overflow-y-auto h-[85%] grow">

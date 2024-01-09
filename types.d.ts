@@ -26,7 +26,8 @@ export type SearchEngine = {
 };
 
 export interface IConnection {
-    apiKey: string;
+    apiKey?: string;
+    stateHash?: string;
     name: string;
     email: string;
     organizationDomain?: string;

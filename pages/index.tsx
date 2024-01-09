@@ -63,11 +63,11 @@ export default function Page() {
                 }
             />
             <section className="relative z-10 flex flex-col items-center justify-end w-screen h-screen gap-6 p-10 bg-center bg-cover">
-                {currentTab == "atlassian" && <Atlassian />}
+                <Dock />
                 {currentTab == "home" && <Home />}
+                {currentTab == "atlassian" && <Atlassian />}
                 {currentTab == "news" && <Articles />}
                 {searchEnabled && <Search />}
-                <Dock />
             </section>
             {/* <Toaster /> */}
         </>

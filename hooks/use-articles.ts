@@ -13,7 +13,7 @@ const useArticles = (filterTags?: any[]) => {
             const queryString =
                 filterTags && filterTags.length > 0
                     ? `https://dev.to/api/articles/latest?tags=${tagsList}`
-                    : "https://dev.to/api/articles/latest?top=3";
+                    : "https://dev.to/api/articles/latest?top=1";
 
             const res = await fetch(queryString, {
                 method: "GET",
