@@ -25,6 +25,12 @@ export function NewConnectionModal({ open, setOpen, provider }: Props) {
     const { toast } = useToast();
 
     const addConnection = useUserPreferences((state) => state.addConnection);
+    const connections = useUserPreferences((state) => state.connections);
+
+    const connection = connections.find(
+        (c) => c.name.toLowerCase() === provider.toLocaleLowerCase()
+    );
+
     const generateClientStateHash = useUserPreferences(
         (state) => state.generateClientStateHash
     );
@@ -76,7 +82,9 @@ export function NewConnectionModal({ open, setOpen, provider }: Props) {
                         organizationDomain,
                     });
                 } else if (provider === "spotify") {
-                    const hash = generateClientStateHash();
+                    const hash =
+                        e.currentTarget.hash.value ?? generateClientStateHash();
+
                     addConnection({
                         email,
                         stateHash: hash,
@@ -133,7 +141,7 @@ export function NewConnectionModal({ open, setOpen, provider }: Props) {
                     onSubmit={handleAddConnection}
                     className="grid gap-4 py-4"
                 >
-                    {provider === "atlassian" && (
+                    {provider.toLocaleLowerCase() === "atlassian" && (
                         <div className="grid items-center grid-cols-4 gap-4">
                             <Label
                                 htmlFor="organization-domain"
@@ -145,6 +153,9 @@ export function NewConnectionModal({ open, setOpen, provider }: Props) {
                                 id="organization-domain"
                                 placeholder="example.atlassian.net"
                                 className="col-span-3"
+                                defaultValue={
+                                    connection?.organizationDomain ?? ""
+                                }
                             />
                         </div>
                     )}
@@ -156,9 +167,10 @@ export function NewConnectionModal({ open, setOpen, provider }: Props) {
                             id="email"
                             placeholder="john@doe.com"
                             className="col-span-3"
+                            defaultValue={connection?.email ?? ""}
                         />
                     </div>
-                    {provider !== "spotify" && (
+                    {provider.toLocaleLowerCase() !== "spotify" && (
                         <div className="grid items-center grid-cols-4 gap-4">
                             <Label htmlFor="apikey" className="text-right">
                                 apiKey
@@ -168,11 +180,28 @@ export function NewConnectionModal({ open, setOpen, provider }: Props) {
                                 type="text"
                                 placeholder="sdSDFgshdo2134oheqfSfsfauhio13"
                                 className="col-span-3"
+                                defaultValue={connection?.apiKey ?? ""}
+                            />
+                        </div>
+                    )}
+                    {provider.toLocaleLowerCase() === "spotify" && (
+                        <div className="grid items-center grid-cols-4 gap-4">
+                            <Label htmlFor="hash" className="text-right">
+                                hash
+                            </Label>
+                            <Input
+                                id="hash"
+                                type="text"
+                                placeholder="sdSDFgshdo2134oheqfSfsfauhio13"
+                                className="col-span-3"
+                                defaultValue={connection?.stateHash ?? ""}
                             />
                         </div>
                     )}
                     <DialogFooter>
-                        <Button type="submit">Add</Button>
+                        <Button type="submit">
+                            {connection ? "Update" : "Add"}
+                        </Button>
                     </DialogFooter>
                 </form>
             </DialogContent>

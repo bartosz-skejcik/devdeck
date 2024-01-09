@@ -16,7 +16,7 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import { useUserPreferences } from "@/stores/user-preferences";
-import { ChevronDown, Github, Music, Trash, Trello } from "lucide-react";
+import { ChevronDown, Edit, Github, Music, Trash, Trello } from "lucide-react";
 
 import Image from "next/image";
 
@@ -78,6 +78,16 @@ function ConnectionsTable({ table, setNewConnectionModalOpen }: Props) {
                                     row.stateHash.slice(0, 8) +
                                         " • • • • • • • •"}
                             </span>
+                            <Button
+                                onClick={() => {
+                                    setNewConnectionModalOpen(row.name);
+                                }}
+                                variant="ghost"
+                                size="icon"
+                                className="-mr-3"
+                            >
+                                <Edit size={16} />
+                            </Button>
                             <Button
                                 onClick={() => {
                                     removeConnection(row.name);
