@@ -67,7 +67,7 @@ const Article = ({ article }: { article: Article }) => {
                         objectFit: "cover",
                     }}
                 />
-                <div className="space-y-1">
+                <div className="space-y-1 text-start">
                     <h4 className="text-base font-semibold">
                         {article.title.slice(0, 35) + "..."}
                     </h4>
