@@ -26,6 +26,7 @@ type Actions = {
     addTag: (tag: IUserTag) => void;
     setSearchVisibility: (searchEnabled: boolean) => void;
     addConnection: (connection: IConnection) => void;
+    editConnection: (providerName: string, connection: IConnection) => void;
     removeConnection: (connectionName: string) => void;
     generateClientStateHash: () => string;
 };
@@ -173,6 +174,25 @@ export const useUserPreferences = create<IUserPreferences & Actions>()(
                     throw new Error("Connection already exists");
                 } else {
                     set({ connections: [...get().connections, connection] });
+                }
+            },
+            editConnection: (providerName: string, connection: IConnection) => {
+                const exists = get().connections.some(
+                    (c) => c.name === providerName
+                );
+
+                if (exists) {
+                    const connections = get().connections.map((c) => {
+                        if (c.name === providerName) {
+                            return connection;
+                        } else {
+                            return c;
+                        }
+                    });
+
+                    set({ connections });
+                } else {
+                    throw new Error("Connection does not exist");
                 }
             },
             removeConnection: (connectionName: string) => {

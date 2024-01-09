@@ -25,6 +25,7 @@ export function NewConnectionModal({ open, setOpen, provider }: Props) {
     const { toast } = useToast();
 
     const addConnection = useUserPreferences((state) => state.addConnection);
+    const editConnection = useUserPreferences((state) => state.editConnection);
     const connections = useUserPreferences((state) => state.connections);
 
     const connection = connections.find(
@@ -37,14 +38,6 @@ export function NewConnectionModal({ open, setOpen, provider }: Props) {
 
     function handleAddConnection(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
-
-        const formData = new FormData(e.currentTarget);
-
-        // const email = formData.get("email") as string;
-        // const apikey = formData.get("apikey") as string;
-        // const organizationDomain = formData.get(
-        //     "organization-domain"
-        // ) as string;
 
         const email = e.currentTarget.email.value;
 
@@ -82,16 +75,26 @@ export function NewConnectionModal({ open, setOpen, provider }: Props) {
                         organizationDomain,
                     });
                 } else if (provider.toLowerCase() === "spotify") {
-                    const hash =
-                        e.currentTarget.hash.value ?? generateClientStateHash();
+                    try {
+                        const hashValue = e.currentTarget["hash-input"].value;
 
-                    addConnection({
-                        email,
-                        stateHash: hash,
-                        name:
-                            provider.charAt(0).toUpperCase() +
-                            provider.slice(1),
-                    });
+                        if (hashValue === "") {
+                            console.log("asd");
+                            throw new Error("Invalid data");
+                        }
+
+                        editConnection(provider, {
+                            email,
+                            stateHash: hashValue,
+                            name: provider,
+                        });
+                    } catch (error) {
+                        addConnection({
+                            email,
+                            stateHash: generateClientStateHash(),
+                            name: provider,
+                        });
+                    }
                 } else {
                     throw new Error("Invalid provider");
                 }
@@ -184,20 +187,24 @@ export function NewConnectionModal({ open, setOpen, provider }: Props) {
                             />
                         </div>
                     )}
-                    {provider.toLocaleLowerCase() === "spotify" && (
-                        <div className="grid items-center grid-cols-4 gap-4">
-                            <Label htmlFor="hash" className="text-right">
-                                hash
-                            </Label>
-                            <Input
-                                id="hash"
-                                type="text"
-                                placeholder="sdSDFgshdo2134oheqfSfsfauhio13"
-                                className="col-span-3"
-                                defaultValue={connection?.stateHash ?? ""}
-                            />
-                        </div>
-                    )}
+                    {provider.toLocaleLowerCase() === "spotify" &&
+                        connection?.stateHash && (
+                            <div className="grid items-center grid-cols-4 gap-4">
+                                <Label
+                                    htmlFor="hash-input"
+                                    className="text-right"
+                                >
+                                    Hash
+                                </Label>
+                                <Input
+                                    id="hash-input"
+                                    type="text"
+                                    placeholder="sdSDFgshdo2134oheqfSfsfauhio13"
+                                    className="col-span-3"
+                                    defaultValue={connection?.stateHash ?? ""}
+                                />
+                            </div>
+                        )}
                     <DialogFooter>
                         <Button type="submit">
                             {connection ? "Update" : "Add"}

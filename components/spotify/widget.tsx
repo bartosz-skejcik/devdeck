@@ -48,11 +48,10 @@ function SpotifyWidget({}: Props) {
     );
 
     useEffect(() => {
+        if (!isPlaying) return;
+
         const interval = setInterval(() => {
-            if (
-                progress &&
-                progress < currentlyPlayingTrack?.item.duration_ms!
-            ) {
+            if (progress < currentlyPlayingTrack?.item.duration_ms!) {
                 setProgress(progress + 1000);
             } else {
                 fetchCurrentlyPlayingTrack();
@@ -60,7 +59,7 @@ function SpotifyWidget({}: Props) {
         }, 1000);
 
         return () => clearInterval(interval);
-    }, [progress, currentlyPlayingTrack?.item.duration_ms]);
+    }, [progress, currentlyPlayingTrack?.item?.duration_ms, isPlaying]);
 
     return (
         !loading && (

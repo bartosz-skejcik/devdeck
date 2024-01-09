@@ -27,7 +27,7 @@ const useSpotfiy = () => {
     const conenctions = useUserPreferences((state) => state.connections);
 
     const spotifyConnection = conenctions.find(
-        (connection) => connection.name === "Spotify"
+        (connection) => connection.name.toLowerCase() === "spotify"
     );
 
     const authenticate = async () => {
@@ -42,8 +42,6 @@ const useSpotfiy = () => {
         );
 
         const data = await response.json();
-
-        console.log(data);
 
         // window.location.href = data.redirect;
         router.push(data.redirect);
@@ -66,7 +64,7 @@ const useSpotfiy = () => {
 
             setIsPlaying(data.is_playing);
 
-            if (data.error) {
+            if (data.error && data.error !== "Unexpected end of JSON input") {
                 setError(new Error(data.error));
                 authenticate();
                 return;
