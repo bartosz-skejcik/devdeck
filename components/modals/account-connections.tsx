@@ -22,9 +22,13 @@ type Props = {};
 
 function AccountConnectionsModal({}: Props) {
     const [open, setOpen] = useState(false);
-    const [provider, setProvider] = useState<"github" | "atlassian">("github");
+    const [provider, setProvider] = useState<
+        "github" | "atlassian" | "spotify"
+    >("github");
 
-    const setNewConnectionModalOpen = (prov: "github" | "atlassian") => {
+    const setNewConnectionModalOpen = (
+        prov: "github" | "atlassian" | "spotify"
+    ) => {
         setProvider(prov);
         setOpen(true);
     };
