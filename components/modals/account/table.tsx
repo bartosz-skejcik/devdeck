@@ -16,13 +16,15 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import { useUserPreferences } from "@/stores/user-preferences";
-import { ChevronDown, Github, Trash, Trello } from "lucide-react";
+import { ChevronDown, Github, Music, Trash, Trello } from "lucide-react";
 
 import Image from "next/image";
 
 type Props = {
     table: any;
-    setNewConnectionModalOpen: (prov: "github" | "atlassian") => void;
+    setNewConnectionModalOpen: (
+        prov: "github" | "atlassian" | "spotify"
+    ) => void;
 };
 
 function ConnectionsTable({ table, setNewConnectionModalOpen }: Props) {
@@ -49,12 +51,19 @@ function ConnectionsTable({ table, setNewConnectionModalOpen }: Props) {
                                     size={24}
                                     className="w-[1rem] h-[1rem] pt-1"
                                 />
-                            ) : (
+                            ) : row.name == "Atlassian" ? (
                                 <Image
                                     src="https://cdn4.iconfinder.com/data/icons/logos-and-brands/512/30_Atlassian_logo_logos-512.png"
                                     width={14}
                                     height={14}
                                     alt="Atlassian"
+                                />
+                            ) : (
+                                <Image
+                                    src="https://cdn0.iconfinder.com/data/icons/social-media-2474/128/spotify_interface_media_social_logo-256.png"
+                                    width={14}
+                                    height={14}
+                                    alt="Spotify"
                                 />
                             )}
                             <span>{row.name}</span>
@@ -63,7 +72,11 @@ function ConnectionsTable({ table, setNewConnectionModalOpen }: Props) {
                         <TableCell className="flex items-center justify-end gap-5 text-right">
                             {/* show the apikey fist 4 characters and the rest are ...... */}
                             <span>
-                                {row.apiKey.slice(0, 8) + " • • • • • • • •"}
+                                {row.apiKey &&
+                                    row.apiKey.slice(0, 8) + " • • • • • • • •"}
+                                {row.stateHash &&
+                                    row.stateHash.slice(0, 8) +
+                                        " • • • • • • • •"}
                             </span>
                             <Button
                                 onClick={() => {
@@ -112,6 +125,30 @@ function ConnectionsTable({ table, setNewConnectionModalOpen }: Props) {
                                             className="w-[1rem] h-[1rem]"
                                         />
                                         <p>Atlassian</p>
+                                    </button>
+                                </DropdownMenuItem>
+                                <DropdownMenuItem
+                                    asChild
+                                    disabled={
+                                        !!connections.find(
+                                            (connection) =>
+                                                connection.name === "Spotify"
+                                        )
+                                    }
+                                >
+                                    <button
+                                        onClick={() => {
+                                            setNewConnectionModalOpen(
+                                                "spotify"
+                                            );
+                                        }}
+                                        className="flex items-center justify-start w-full gap-2 cursor-pointer text-start"
+                                    >
+                                        <Music
+                                            size={24}
+                                            className="w-[1rem] h-[1rem]"
+                                        />
+                                        <p>Spotify</p>
                                     </button>
                                 </DropdownMenuItem>
                                 <DropdownMenuItem

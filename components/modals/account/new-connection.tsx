@@ -18,13 +18,16 @@ import { FormEvent } from "react";
 type Props = {
     open: boolean;
     setOpen: (open: boolean) => void;
-    provider: "github" | "atlassian";
+    provider: "github" | "atlassian" | "spotify";
 };
 
 export function NewConnectionModal({ open, setOpen, provider }: Props) {
     const { toast } = useToast();
 
     const addConnection = useUserPreferences((state) => state.addConnection);
+    const generateClientStateHash = useUserPreferences(
+        (state) => state.generateClientStateHash
+    );
 
     function handleAddConnection(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
@@ -36,13 +39,18 @@ export function NewConnectionModal({ open, setOpen, provider }: Props) {
         // const organizationDomain = formData.get(
         //     "organization-domain"
         // ) as string;
+
         const email = e.currentTarget.email.value;
-        const apikey = e.currentTarget.apikey.value;
-        const organizationDomain = e.currentTarget["organization-domain"].value;
 
         try {
-            if (email !== "" && apikey !== "") {
+            if (email !== "") {
                 if (provider === "github") {
+                    const apikey = e.currentTarget.apikey.value;
+
+                    if (apikey === "") {
+                        throw new Error("Invalid data");
+                    }
+
                     addConnection({
                         email,
                         apiKey: apikey,
@@ -50,7 +58,15 @@ export function NewConnectionModal({ open, setOpen, provider }: Props) {
                             provider.charAt(0).toUpperCase() +
                             provider.slice(1),
                     });
-                } else if (provider === "atlassian" && organizationDomain) {
+                } else if (provider === "atlassian") {
+                    const organizationDomain =
+                        e.currentTarget["organization-domain"].value;
+                    const apikey = e.currentTarget.apikey.value;
+
+                    if (organizationDomain === "" || apikey === "") {
+                        throw new Error("Invalid data");
+                    }
+
                     addConnection({
                         email,
                         apiKey: apikey,
@@ -58,6 +74,15 @@ export function NewConnectionModal({ open, setOpen, provider }: Props) {
                             provider.charAt(0).toUpperCase() +
                             provider.slice(1),
                         organizationDomain,
+                    });
+                } else if (provider === "spotify") {
+                    const hash = generateClientStateHash();
+                    addConnection({
+                        email,
+                        stateHash: hash,
+                        name:
+                            provider.charAt(0).toUpperCase() +
+                            provider.slice(1),
                     });
                 } else {
                     throw new Error("Invalid provider");
@@ -133,17 +158,19 @@ export function NewConnectionModal({ open, setOpen, provider }: Props) {
                             className="col-span-3"
                         />
                     </div>
-                    <div className="grid items-center grid-cols-4 gap-4">
-                        <Label htmlFor="apikey" className="text-right">
-                            apiKey
-                        </Label>
-                        <Input
-                            id="apikey"
-                            type="text"
-                            placeholder="sdSDFgshdo2134oheqfSfsfauhio13"
-                            className="col-span-3"
-                        />
-                    </div>
+                    {provider !== "spotify" && (
+                        <div className="grid items-center grid-cols-4 gap-4">
+                            <Label htmlFor="apikey" className="text-right">
+                                apiKey
+                            </Label>
+                            <Input
+                                id="apikey"
+                                type="text"
+                                placeholder="sdSDFgshdo2134oheqfSfsfauhio13"
+                                className="col-span-3"
+                            />
+                        </div>
+                    )}
                     <DialogFooter>
                         <Button type="submit">Add</Button>
                     </DialogFooter>

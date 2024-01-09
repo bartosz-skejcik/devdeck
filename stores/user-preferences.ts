@@ -27,6 +27,7 @@ type Actions = {
     setSearchVisibility: (searchEnabled: boolean) => void;
     addConnection: (connection: IConnection) => void;
     removeConnection: (connectionName: string) => void;
+    generateClientStateHash: () => string;
 };
 
 const INITIAL_STATE: IUserPreferences = {
@@ -188,6 +189,24 @@ export const useUserPreferences = create<IUserPreferences & Actions>()(
                 } else {
                     throw new Error("Connection does not exist");
                 }
+            },
+            generateClientStateHash: () => {
+                function generateRandomString(length: number) {
+                    let text = "";
+                    const possible =
+                        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+                    for (let i = 0; i < length; i++)
+                        text += possible.charAt(
+                            Math.floor(Math.random() * possible.length)
+                        );
+
+                    return text;
+                }
+
+                const hash = generateRandomString(32);
+
+                return hash;
             },
         }),
         {
