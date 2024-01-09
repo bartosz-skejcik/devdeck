@@ -73,8 +73,9 @@ function SpotifyWidget({}: Props) {
                                 height={80}
                                 width={80}
                                 src={
-                                    currentlyPlayingTrack?.item.album.images[1]
-                                        .url ??
+                                    (currentlyPlayingTrack?.item &&
+                                        currentlyPlayingTrack?.item.album
+                                            .images[1].url) ??
                                     "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAACoCAMAAABt9SM9AAAAA1BMVEWAgICQdD0xAAAAR0lEQVR4nO3BAQEAAACCIP+vbkhAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAO8GxYgAAb0jQ/cAAAAASUVORK5CYII="
                                 }
                             />
@@ -85,16 +86,20 @@ function SpotifyWidget({}: Props) {
                                     <Link
                                         className="transition duration-200 hover:underline"
                                         href={
-                                            currentlyPlayingTrack?.item
-                                                .external_urls.spotify! ?? "#"
+                                            (currentlyPlayingTrack?.item &&
+                                                currentlyPlayingTrack?.item
+                                                    .external_urls.spotify!) ??
+                                            "#"
                                         }
                                     >
-                                        {currentlyPlayingTrack?.item.name ??
+                                        {(currentlyPlayingTrack?.item &&
+                                            currentlyPlayingTrack?.item.name) ??
                                             "N/A"}
                                     </Link>
                                 </p>
                                 <p className="text-sm text-muted-foreground flex items-start gap-0.5">
-                                    {currentlyPlayingTrack?.item.artists &&
+                                    {currentlyPlayingTrack?.item &&
+                                    currentlyPlayingTrack?.item.artists &&
                                     currentlyPlayingTrack?.item.artists.length >
                                         0 ? (
                                         currentlyPlayingTrack?.item.artists.map(
@@ -118,7 +123,8 @@ function SpotifyWidget({}: Props) {
                                 className="h-1.5 bg-foreground rounded-full transition duration-200"
                                 style={{
                                     width: `${
-                                        currentlyPlayingTrack
+                                        currentlyPlayingTrack &&
+                                        currentlyPlayingTrack.item
                                             ? calculateProgress(
                                                   currentlyPlayingTrack.progress_ms,
                                                   currentlyPlayingTrack.item
@@ -131,7 +137,8 @@ function SpotifyWidget({}: Props) {
                         </div>
                         <div className="flex items-center justify-between mt-1 2xl:mt-3">
                             <span className="w-1/12 text-xs text-muted-foreground">
-                                {currentlyPlayingTrack ? (
+                                {currentlyPlayingTrack &&
+                                currentlyPlayingTrack?.item ? (
                                     timestampToMinutes(
                                         currentlyPlayingTrack.progress_ms
                                     )
@@ -174,7 +181,8 @@ function SpotifyWidget({}: Props) {
                                 <Repeat className="text-muted-foreground" />
                             </div>
                             <span className="w-1/12 text-xs text-muted-foreground">
-                                {currentlyPlayingTrack ? (
+                                {currentlyPlayingTrack?.item &&
+                                currentlyPlayingTrack ? (
                                     timestampToMinutes(
                                         currentlyPlayingTrack.item.duration_ms
                                     )
