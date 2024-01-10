@@ -54,25 +54,32 @@ We welcome contributions from the community. If you'd like to contribute, here a
 
 ### Getting Started
 
-1. Clone the repository to your local machine.
+1. Pick an issue from the [issue tracker](https://github.com/users/bartosz-skejcik/projects/1) and assign it to yourself.
+
+2. Fork the repository.
+
+    - Click the "Fork" button in the top-right corner of the repository page.
+    - Select your GitHub account to fork the repository to your account.
+
+3. Clone the repository to your local machine.
 
     ```bash
     git clone https://github.com/bartosz-skejcik/devdeck.git
     ```
 
-2. Navigate to the project directory:
+4. Navigate to the project directory:
 
     ```bash
     cd devdeck
     ```
 
-3. Install the dependencies:
+5. Install the dependencies:
 
     ```bash
     pnpm install
     ```
 
-4. Create a new branch for your feature or bug fix:
+6. Create a new branch for your feature or bug fix:
 
     ```bash
     git checkout -b feature/your-feature-name
@@ -82,6 +89,16 @@ We welcome contributions from the community. If you'd like to contribute, here a
 
     ```bash
     git checkout -b bugfix/your-bugfix-name
+    ```
+
+7. Move the `.env.example` file to `.env` and fill in the required environment variables.
+
+8. Change the state of the issue in the [issue tracker](https://github.com/users/bartosz-skejcik/projects/1) to "In Progress". This lets other contributors know that you're working on the issue.
+
+9. Start the development server:
+
+    ```bash
+    pnpm run dev
     ```
 
 ### Backend Proxy
@@ -99,7 +116,7 @@ Follow this specific branch naming convention to keep things organized:
 -   For features: `feature/your-feature-name`
 -   For bug fixes: `bugfix/your-bugfix-name`
 
-## Commit Naming Convention
+### Commit Naming Convention
 
 When making commits to the repository, please follow this naming convention to provide clear and descriptive commit messages:
 
@@ -121,12 +138,6 @@ When creating a new issue or pull request, please use the following naming conve
 
 ### Submitting Your Changes
 
-Once you're ready to submit your changes, push your branch to the repository and create a pull request. Please ensure your code adheres to the existing coding conventions and test coverage.
-
-I appreciate your contributions and look forward to seeing your pull requests!
-
-### Submitting Your Changes
-
-Once you're ready to submit your changes, push your branch to the repository and create a pull request. Please ensure your code adheres to the existing coding conventions and test coverage.
+Once you're ready to submit your changes, push your branch to your forked repository and create a pull request from your forked repository to the original repository. Please ensure your code adheres to the existing coding conventions and test coverage.
 
 I appreciate your contributions and look forward to seeing your pull requests!
