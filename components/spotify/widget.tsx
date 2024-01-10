@@ -12,6 +12,10 @@ import { Card, CardContent } from "@/components/ui/card";
 import useSpotfiy from "@/hooks/use-spotify";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import BlockWall from "../block-wall";
+import { useUserPreferences } from "@/stores/user-preferences";
+import { Button } from "../ui/button";
+import { useAppStore } from "@/stores/app-store";
 
 type Props = {};
 
@@ -27,6 +31,16 @@ const calculateProgress = (progress: number, duration: number) => {
 };
 
 function SpotifyWidget({}: Props) {
+    const connections = useUserPreferences((state) => state.connections);
+
+    const spotifyConnection = connections.find(
+        (connection) => connection.name.toLowerCase() === "spotify"
+    );
+
+    const openConnectionModal = useAppStore(
+        (state) => state.setAccountConnectionsModal
+    );
+
     const {
         currentlyPlayingTrack,
         loading,
@@ -63,7 +77,36 @@ function SpotifyWidget({}: Props) {
 
     return (
         !loading && (
-            <Card className="grid grid-cols-1 col-span-2 col-start-1 grid-rows-1 row-span-3 row-start-2 pt-4 2xl:pt-5 2xl:row-span-2 rounded-xl">
+            <Card className="relative grid grid-cols-1 col-span-2 col-start-1 grid-rows-1 row-span-3 row-start-2 pt-4 overflow-hidden 2xl:pt-5 2xl:row-span-2 rounded-xl">
+                {!currentlyPlayingTrack?.item &&
+                    !currentlyPlayingTrack?.item && (
+                        <BlockWall
+                            title="🎵 Nothing is playing"
+                            description="Play something on Spotify to see it here!"
+                            textSize="lg"
+                        />
+                    )}
+                {error && (
+                    <BlockWall
+                        title="🚨 Error"
+                        description="An error occured while fetching your currently playing track."
+                        textSize="lg"
+                    />
+                )}
+                {!spotifyConnection && (
+                    <BlockWall
+                        title="🔌 Spotify is not connected"
+                        description="Connect your Spotify account to see your currently playing track."
+                        textSize="xl"
+                    >
+                        <button
+                            onClick={() => openConnectionModal(true)}
+                            className="inline-flex items-center justify-center h-10 px-4 py-2 text-sm font-medium text-black transition-colors bg-green-500 border border-green-600 rounded-md whitespace-nowrap ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-green-600"
+                        >
+                            Connect Spotify
+                        </button>
+                    </BlockWall>
+                )}
                 <CardContent className="w-full h-full col-span-1 row-span-1">
                     <div className="flex items-start w-full space-x-4">
                         <div className="flex-shrink-0">

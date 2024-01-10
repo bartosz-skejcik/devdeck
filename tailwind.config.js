@@ -12,6 +12,7 @@ module.exports = {
             // pattern: /(from|to)-+/, // 👈  This includes bg of all colors and shades
             // only for from and bg blue, red, green
             pattern: /(from|to)-(blue|yellow|green)-(600|500|400)/,
+            pattern: /text-(sm|md|lg|xl|2xl)/,
         },
     ],
     prefix: "",
