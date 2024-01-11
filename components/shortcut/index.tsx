@@ -84,14 +84,14 @@ function Shortcut({ shortcut }: Props) {
                         onClick={handleDelete}
                     >
                         <Trash size={14} className="mr-2" />
-                        <span className="text-xs">Usuń</span>
+                        <span className="text-xs">Delete</span>
                     </ContextMenuItem>
                     <ContextMenuItem
                         className="flex items-center justify-start"
                         onClick={handleEdit}
                     >
                         <Edit size={14} className="mr-2" />
-                        <span className="text-xs">Edytuj</span>
+                        <span className="text-xs">Edit</span>
                     </ContextMenuItem>
                 </ContextMenuContent>
             </ContextMenu>
