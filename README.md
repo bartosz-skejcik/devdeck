@@ -1,4 +1,4 @@
-# New Tab Extension (chromium)
+# DevDeck - New Tab Extension For Developers
 
 ## Description
 
