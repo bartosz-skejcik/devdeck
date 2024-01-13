@@ -10,10 +10,13 @@ import ProjectsFilter from "@/components/atlassian/issues/filter-projects";
 import PriorityFilter from "@/components/atlassian/issues/filter-priority";
 import SortBy from "@/components/atlassian/issues/sort-by";
 import Issue from "./issue";
+import clsx from "clsx";
 
-type Props = {};
+type Props = {
+    rowSpan?: number;
+};
 
-function Issues({}: Props) {
+function Issues({ rowSpan = 2 }: Props) {
     const connections = useUserPreferences((state) => state.connections);
 
     const connection = connections.find((c) => c.name === "Atlassian");
@@ -55,12 +58,22 @@ function Issues({}: Props) {
 
     if (loading) {
         return (
-            <div className="col-span-4 row-span-2 rounded-lg bg-background text-foreground animate-pulse"></div>
+            <div
+                className={clsx(
+                    "col-span-4 py-4 rounded-lg px-7 bg-background text-foreground grow animate-pulse",
+                    rowSpan == 2 ? "row-span-2" : "row-span-3"
+                )}
+            ></div>
         );
     }
 
     return (
-        <div className="col-span-4 row-span-2 py-4 rounded-lg px-7 bg-background text-foreground grow">
+        <div
+            className={clsx(
+                "col-span-4 py-4 rounded-lg px-7 bg-background text-foreground grow",
+                rowSpan == 2 ? "row-span-2" : "row-span-3"
+            )}
+        >
             <div className="flex items-center justify-between w-full pb-3">
                 <h2 className="text-xl font-semibold">Your issues</h2>
                 <div className="flex items-center gap-2">
