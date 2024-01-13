@@ -33,6 +33,7 @@ export default function NewShortcutModal() {
 
         if (name && name !== "" && url && url !== "") {
             try {
+                // @ts-ignore
                 addShortcut({ name, url, icon });
                 setNewShortcutModal(false);
             } catch (error: any) {

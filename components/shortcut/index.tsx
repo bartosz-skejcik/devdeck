@@ -51,12 +51,14 @@ function Shortcut({ shortcut }: Props) {
         setEditShortcutModal(true, shortcut);
     }
 
-    const { attributes, listeners, setNodeRef, transform } = useSortable({
-        id: shortcut.id,
-    });
+    const { attributes, listeners, setNodeRef, transform, transition } =
+        useSortable({
+            id: shortcut.id,
+        });
 
     const style = {
         transform: CSS.Transform.toString(transform),
+        transition,
     };
 
     return (

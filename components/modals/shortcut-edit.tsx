@@ -45,7 +45,7 @@ function EditShortcutModal({}: Props) {
         ) {
             try {
                 userPreferences.editShortcut(
-                    { name, url, icon },
+                    { id: editedShortcut.id, name, url, icon },
                     editedShortcut
                 );
                 setEditShortcutModal(false, null);
