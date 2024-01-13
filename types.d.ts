@@ -7,6 +7,7 @@ export interface IUserTag extends ITag {
 }
 
 export type Shortcut = {
+    id: number;
     name: string;
     url: string;
     icon: string;

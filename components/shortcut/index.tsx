@@ -12,14 +12,16 @@ import {
     TooltipTrigger,
 } from "@/components/ui/tooltip";
 
-import { Button } from "../ui/button";
-import Link from "next/link";
+import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { Shortcut } from "@/types.d";
 import { Edit, Trash } from "lucide-react";
 import { useUserPreferences } from "@/stores/user-preferences";
 import { useToast } from "@/components/ui/use-toast";
 import { useAppStore } from "@/stores/app-store";
+
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 
 type Props = {
     shortcut: Shortcut;
@@ -49,29 +51,40 @@ function Shortcut({ shortcut }: Props) {
         setEditShortcutModal(true, shortcut);
     }
 
+    const { attributes, listeners, setNodeRef, transform } = useSortable({
+        id: shortcut.id,
+    });
+
+    const style = {
+        transform: CSS.Transform.toString(transform),
+    };
+
     return (
         <TooltipProvider delayDuration={125}>
             <ContextMenu>
                 <Tooltip>
                     <TooltipTrigger>
-                        <ContextMenuTrigger className="group">
-                            <Button asChild variant="outline" size="icon">
-                                <Link
-                                    href={shortcut.url}
-                                    rel="noopener noreferrer"
-                                >
-                                    <Image
-                                        src={shortcut.icon}
-                                        width={256}
-                                        height={256}
-                                        alt={shortcut.url}
-                                        className="w-6 h-6"
-                                    />
-                                </Link>
+                        <ContextMenuTrigger className="group" asChild>
+                            <Button
+                                ref={setNodeRef}
+                                style={style}
+                                {...attributes}
+                                {...listeners}
+                                variant="outline"
+                                size="icon"
+                                onClick={() => {
+                                    // we use button instead of a link couse of the drag and drop feature
+                                    window.location.href = shortcut.url;
+                                }}
+                            >
+                                <Image
+                                    src={shortcut.icon}
+                                    width={256}
+                                    height={256}
+                                    alt={shortcut.url}
+                                    className="w-6 h-6"
+                                />
                             </Button>
-                            <div className="absolute hidden p-1 transform translate-y-1/2 rounded-full -left-1/2 -top-12 bg-primary group-hover:block">
-                                {shortcut.name}
-                            </div>
                         </ContextMenuTrigger>
                     </TooltipTrigger>
                     <TooltipContent className="px-3 py-1">

@@ -60,6 +60,10 @@ export const useUserPreferences = create<IUserPreferences & Actions>()(
                 if (exists) {
                     throw new Error("Shortcut already exists");
                 } else {
+                    const lastItemId = get().shortcuts.length
+                        ? get().shortcuts[get().shortcuts.length - 1].id
+                        : 0;
+                    shortcut.id = lastItemId + 1;
                     set({ shortcuts: [...get().shortcuts, shortcut] });
                 }
             },

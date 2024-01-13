@@ -8,8 +8,20 @@ import useStore from "@/hooks/use-store";
 import Shortcut from "@/components/shortcut";
 import ShortcutSkeleton from "./shortcut/skeleton";
 import { Tab } from "@/types.d";
-import SettingsDropdown from "./dock/dropdown/settings";
-import AccountDropdown from "./dock/dropdown/account";
+import SettingsDropdown from "@/components/dock/dropdown/settings";
+import AccountDropdown from "@/components/dock/dropdown/account";
+
+import {
+    DndContext,
+    MouseSensor,
+    TouchSensor,
+    useSensor,
+    useSensors,
+} from "@dnd-kit/core";
+import {
+    SortableContext,
+    horizontalListSortingStrategy,
+} from "@dnd-kit/sortable";
 
 type Props = {};
 
@@ -23,6 +35,44 @@ function Dock({}: Props) {
     const connections = useStore(
         useUserPreferences,
         (state) => state.connections
+    );
+
+    function handleDragEnd(event: any) {
+        const { active, over } = event;
+
+        if (!over) return;
+        if (!active) return;
+        if (!shortcuts) return;
+
+        if (active.id !== over.id) {
+            const oldIndex = shortcuts.findIndex(
+                (shortcut) => shortcut.id === active.id
+            );
+            const newIndex = shortcuts.findIndex(
+                (shortcut) => shortcut.id === over.id
+            );
+
+            const newShortcuts = [...shortcuts];
+            newShortcuts.splice(oldIndex, 1);
+            newShortcuts.splice(newIndex, 0, shortcuts[oldIndex]);
+
+            useUserPreferences.setState({ shortcuts: newShortcuts });
+        }
+    }
+
+    const sensors = useSensors(
+        useSensor(MouseSensor, {
+            activationConstraint: {
+                delay: 70,
+                tolerance: 5,
+            },
+        }),
+        useSensor(TouchSensor, {
+            activationConstraint: {
+                delay: 70,
+                tolerance: 5,
+            },
+        })
     );
 
     return (
@@ -72,13 +122,22 @@ function Dock({}: Props) {
                     )}
             </div>
             <div className="flex items-center justify-between gap-6 mx-auto">
-                {shortcuts ? (
-                    shortcuts.map((shortcut, index) => (
-                        <Shortcut key={index} shortcut={shortcut} />
-                    ))
-                ) : (
-                    <ShortcutSkeleton />
-                )}
+                <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
+                    {shortcuts && (
+                        <SortableContext
+                            items={shortcuts}
+                            strategy={horizontalListSortingStrategy}
+                        >
+                            {shortcuts ? (
+                                shortcuts.map((shortcut, index) => (
+                                    <Shortcut key={index} shortcut={shortcut} />
+                                ))
+                            ) : (
+                                <ShortcutSkeleton />
+                            )}
+                        </SortableContext>
+                    )}
+                </DndContext>
                 <Button
                     onClick={() => {
                         setNewShortcutModal(true);
