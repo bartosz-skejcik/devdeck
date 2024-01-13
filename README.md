@@ -1,5 +1,7 @@
 # DevDeck - New Tab Extension For Developers
 
+[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/j5on)
+
 ## Description
 
 This project is a new tab extension that enhances the functionality of your browser's new tab page. It allows you to customize the appearance and add useful features to make your browsing experience more productive.
