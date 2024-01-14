@@ -20,9 +20,6 @@ import { useUserPreferences } from "@/stores/user-preferences";
 import { useToast } from "@/components/ui/use-toast";
 import { useAppStore } from "@/stores/app-store";
 
-import { useSortable } from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
-
 type Props = {
     shortcut: Shortcut;
 };
@@ -51,16 +48,6 @@ function Shortcut({ shortcut }: Props) {
         setEditShortcutModal(true, shortcut);
     }
 
-    const { attributes, listeners, setNodeRef, transform, transition } =
-        useSortable({
-            id: shortcut.id,
-        });
-
-    const style = {
-        transform: CSS.Transform.toString(transform),
-        transition,
-    };
-
     return (
         <TooltipProvider delayDuration={125}>
             <ContextMenu>
@@ -68,12 +55,9 @@ function Shortcut({ shortcut }: Props) {
                     <TooltipTrigger>
                         <ContextMenuTrigger className="group" asChild>
                             <Button
-                                ref={setNodeRef}
-                                style={style}
-                                {...attributes}
-                                {...listeners}
                                 variant="outline"
                                 size="icon"
+                                className="mx-3"
                                 onClick={() => {
                                     // we use button instead of a link couse of the drag and drop feature
                                     window.location.href = shortcut.url;

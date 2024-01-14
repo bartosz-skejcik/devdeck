@@ -11,17 +11,8 @@ import { Tab } from "@/types.d";
 import SettingsDropdown from "@/components/dock/dropdown/settings";
 import AccountDropdown from "@/components/dock/dropdown/account";
 
-import {
-    DndContext,
-    MouseSensor,
-    TouchSensor,
-    useSensor,
-    useSensors,
-} from "@dnd-kit/core";
-import {
-    SortableContext,
-    horizontalListSortingStrategy,
-} from "@dnd-kit/sortable";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { useEffect, useState } from "react";
 
 type Props = {};
 
@@ -32,48 +23,33 @@ function Dock({}: Props) {
     );
     const { currentTab, setCurrentTab } = useAppStore((state) => state);
 
+    const [shortcutsClone, setShortcutsClone] = useState(shortcuts);
+
+    useEffect(() => {
+        setShortcutsClone(shortcuts);
+    }, [shortcuts]);
+
+    useEffect(() => {
+        if (shortcutsClone !== shortcuts) {
+            useUserPreferences.setState({ shortcuts: shortcutsClone });
+        }
+    }, [shortcutsClone]);
+
     const connections = useStore(
         useUserPreferences,
         (state) => state.connections
     );
 
-    function handleDragEnd(event: any) {
-        const { active, over } = event;
+    function handleOnDragEnd(result: any) {
+        if (!result.destination) return;
+        if (!shortcutsClone) return;
 
-        if (!over) return;
-        if (!active) return;
-        if (!shortcuts) return;
+        const items = Array.from(shortcutsClone);
+        const [reorderedItem] = items.splice(result.source.index, 1);
+        items.splice(result.destination.index, 0, reorderedItem);
 
-        if (active.id !== over.id) {
-            const oldIndex = shortcuts.findIndex(
-                (shortcut) => shortcut.id === active.id
-            );
-            const newIndex = shortcuts.findIndex(
-                (shortcut) => shortcut.id === over.id
-            );
-
-            const newShortcuts = [...shortcuts];
-            newShortcuts.splice(oldIndex, 1);
-            newShortcuts.splice(newIndex, 0, shortcuts[oldIndex]);
-
-            useUserPreferences.setState({ shortcuts: newShortcuts });
-        }
+        setShortcutsClone(items);
     }
-
-    const sensors = useSensors(
-        useSensor(MouseSensor, {
-            activationConstraint: {
-                delay: 70,
-                tolerance: 5,
-            },
-        }),
-        useSensor(TouchSensor, {
-            activationConstraint: {
-                delay: 70,
-                tolerance: 5,
-            },
-        })
-    );
 
     return (
         <div className="flex items-center w-full p-2 border rounded-lg border-border justify-evenly bg-background text-foreground">
@@ -122,22 +98,41 @@ function Dock({}: Props) {
                     )}
             </div>
             <div className="flex items-center justify-between gap-6 mx-auto">
-                <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
-                    {shortcuts && (
-                        <SortableContext
-                            items={shortcuts}
-                            strategy={horizontalListSortingStrategy}
-                        >
-                            {shortcuts ? (
-                                shortcuts.map((shortcut, index) => (
-                                    <Shortcut key={index} shortcut={shortcut} />
-                                ))
-                            ) : (
-                                <ShortcutSkeleton />
-                            )}
-                        </SortableContext>
-                    )}
-                </DndContext>
+                <DragDropContext onDragEnd={handleOnDragEnd}>
+                    <Droppable droppableId="items" direction="horizontal">
+                        {(provided) => (
+                            <div
+                                className="flex items-center justify-between mx-auto"
+                                {...provided.droppableProps}
+                                ref={provided.innerRef}
+                            >
+                                {shortcutsClone &&
+                                    shortcutsClone.map((item, index) => (
+                                        <Draggable
+                                            disableInteractiveElementBlocking
+                                            key={item.id}
+                                            draggableId={
+                                                item.url + item.id.toString()
+                                            }
+                                            index={index}
+                                        >
+                                            {(provided) => (
+                                                <div
+                                                    ref={provided.innerRef}
+                                                    {...provided.draggableProps}
+                                                    {...provided.dragHandleProps}
+                                                >
+                                                    {/* {item.name} */}
+                                                    <Shortcut shortcut={item} />
+                                                </div>
+                                            )}
+                                        </Draggable>
+                                    ))}
+                                {provided.placeholder}
+                            </div>
+                        )}
+                    </Droppable>
+                </DragDropContext>
                 <Button
                     onClick={() => {
                         setNewShortcutModal(true);
