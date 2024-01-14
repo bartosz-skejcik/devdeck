@@ -107,7 +107,7 @@ function SpotifyWidget({}: Props) {
                         </button>
                     </BlockWall>
                 )}
-                <CardContent className="w-full h-full col-span-1 row-span-1">
+                <CardContent className="flex flex-col items-center justify-center w-full h-full col-span-1 row-span-1">
                     <div className="flex items-start w-full space-x-4">
                         <div className="flex-shrink-0">
                             <Image
@@ -136,18 +136,24 @@ function SpotifyWidget({}: Props) {
                                         }
                                     >
                                         {(currentlyPlayingTrack?.item &&
-                                            currentlyPlayingTrack?.item.name) ??
+                                            currentlyPlayingTrack?.item.name.slice(
+                                                0,
+                                                45
+                                            ) + "...") ??
                                             "N/A"}
                                     </Link>
                                 </p>
-                                <p className="text-sm text-muted-foreground flex items-start gap-0.5">
+                                <p className="flex flex-wrap items-start text-sm gap-x-2 text-muted-foreground">
                                     {currentlyPlayingTrack?.item &&
                                     currentlyPlayingTrack?.item.artists &&
                                     currentlyPlayingTrack?.item.artists.length >
                                         0 ? (
                                         currentlyPlayingTrack?.item.artists.map(
                                             (artist) => (
-                                                <span key={artist.id}>
+                                                <span
+                                                    className="whitespace-nowrap"
+                                                    key={artist.id}
+                                                >
                                                     {artist.name}
                                                 </span>
                                             )

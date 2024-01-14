@@ -19,16 +19,20 @@ function ClockWidget({}: Props) {
         });
     }, 1000);
     return (
-        <Card className="col-span-2 col-start-1 row-span-1 row-start-1 pt-0.5 2xl:pt-3 2xl:row-start-1 bg-background">
-            <CardContent>
+        <Card className="flex items-center justify-center col-span-2 col-start-1 row-span-1 row-start-1 pt-[1.35rem] 2xl:row-start-1 bg-background">
+            <CardContent className="flex items-center justify-center w-full h-full grow">
                 <div className="flex flex-col items-center justify-center h-full grow">
-                    <div className="-mb-1 text-2xl font-semibold 2xl:-mb-0 2xl:text-5xl">
+                    <div className="text-2xl font-semibold 2xl:-mb-0 2xl:text-5xl">
                         {time.hours}
                         <span className="animate-pulse">:</span>
                         {time.minutes}
                     </div>
                     <div className="font-medium 2xl:text-xl text-muted-foreground">
-                        Monday, 1st January
+                        {new Date().toLocaleDateString("en-PL", {
+                            weekday: "long",
+                            day: "numeric",
+                            month: "long",
+                        })}
                     </div>
                 </div>
             </CardContent>
