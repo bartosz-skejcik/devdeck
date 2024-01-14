@@ -21,6 +21,7 @@
         "@radix-ui/react-slot": "^1.0.2",
         "@radix-ui/react-toast": "^1.1.5",
         "@radix-ui/react-tooltip": "^1.0.7",
+        "array-move": "^4.0.0",
         "class-variance-authority": "^0.7.0",
         "clsx": "^2.0.0",
         "framer-motion": "^10.16.16",
@@ -31,6 +32,7 @@
         "react": "^18",
         "react-beautiful-dnd": "^13.1.1",
         "react-dom": "^18",
+        "react-sortable-hoc": "^2.0.0",
         "tailwind-merge": "^2.2.0",
         "tailwindcss-animate": "^1.0.7",
         "zustand": "^4.4.7"

@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Home, Newspaper, Plus, Trello } from "lucide-react";
+import { Divide, Home, Newspaper, Plus, Trello } from "lucide-react";
 import { useUserPreferences } from "@/stores/user-preferences";
 import { useAppStore } from "@/stores/app-store";
 import useStore from "@/hooks/use-store";
@@ -11,10 +11,32 @@ import { Tab } from "@/types.d";
 import SettingsDropdown from "@/components/dock/dropdown/settings";
 import AccountDropdown from "@/components/dock/dropdown/account";
 
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { useEffect, useState } from "react";
+import {
+    SortableContainer,
+    SortableElement,
+    arrayMove,
+} from "react-sortable-hoc";
 
 type Props = {};
+
+const SortableItem = SortableElement(({ value }: { value: any }) => (
+    <Shortcut shortcut={value} />
+));
+
+const SortableList = SortableContainer(({ items }: { items: any }) => {
+    return (
+        <div className="flex items-center justify-between mx-auto">
+            {items.map((value: any, index: number) => (
+                <SortableItem
+                    key={`item-${index}`}
+                    index={index}
+                    // @ts-ignore
+                    value={value}
+                />
+            ))}
+        </div>
+    );
+});
 
 function Dock({}: Props) {
     const shortcuts = useStore(useUserPreferences, (state) => state.shortcuts);
@@ -23,32 +45,24 @@ function Dock({}: Props) {
     );
     const { currentTab, setCurrentTab } = useAppStore((state) => state);
 
-    const [shortcutsClone, setShortcutsClone] = useState(shortcuts);
-
-    useEffect(() => {
-        setShortcutsClone(shortcuts);
-    }, [shortcuts]);
-
-    useEffect(() => {
-        if (shortcutsClone !== shortcuts) {
-            useUserPreferences.setState({ shortcuts: shortcutsClone });
-        }
-    }, [shortcutsClone]);
-
     const connections = useStore(
         useUserPreferences,
         (state) => state.connections
     );
 
-    function handleOnDragEnd(result: any) {
-        if (!result.destination) return;
-        if (!shortcutsClone) return;
+    function handleOnSortEnd({
+        oldIndex,
+        newIndex,
+    }: {
+        oldIndex: number;
+        newIndex: number;
+    }) {
+        if (!shortcuts) return;
 
-        const items = Array.from(shortcutsClone);
-        const [reorderedItem] = items.splice(result.source.index, 1);
-        items.splice(result.destination.index, 0, reorderedItem);
+        const shortcutsClone = [...shortcuts];
+        const newShortcuts = arrayMove(shortcutsClone, oldIndex, newIndex);
 
-        setShortcutsClone(items);
+        useUserPreferences.setState({ shortcuts: newShortcuts });
     }
 
     return (
@@ -98,41 +112,20 @@ function Dock({}: Props) {
                     )}
             </div>
             <div className="flex items-center justify-between gap-6 mx-auto">
-                <DragDropContext onDragEnd={handleOnDragEnd}>
-                    <Droppable droppableId="items" direction="horizontal">
-                        {(provided) => (
-                            <div
-                                className="flex items-center justify-between mx-auto"
-                                {...provided.droppableProps}
-                                ref={provided.innerRef}
-                            >
-                                {shortcutsClone &&
-                                    shortcutsClone.map((item, index) => (
-                                        <Draggable
-                                            disableInteractiveElementBlocking
-                                            key={item.id}
-                                            draggableId={
-                                                item.url + item.id.toString()
-                                            }
-                                            index={index}
-                                        >
-                                            {(provided) => (
-                                                <div
-                                                    ref={provided.innerRef}
-                                                    {...provided.draggableProps}
-                                                    {...provided.dragHandleProps}
-                                                >
-                                                    {/* {item.name} */}
-                                                    <Shortcut shortcut={item} />
-                                                </div>
-                                            )}
-                                        </Draggable>
-                                    ))}
-                                {provided.placeholder}
-                            </div>
-                        )}
-                    </Droppable>
-                </DragDropContext>
+                {shortcuts ? (
+                    <SortableList
+                        axis="x"
+                        // @ts-ignore
+                        items={shortcuts}
+                        onSortEnd={handleOnSortEnd}
+                    />
+                ) : (
+                    <div className="flex items-center justify-between mx-auto">
+                        {Array.from(Array(5).keys()).map((i) => (
+                            <ShortcutSkeleton key={i} />
+                        ))}
+                    </div>
+                )}
                 <Button
                     onClick={() => {
                         setNewShortcutModal(true);
