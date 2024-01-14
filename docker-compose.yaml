@@ -1,0 +1,11 @@
+services:
+  app:
+    build: ./docker
+    working_dir: /app
+    environment:
+      WATCHPACK_POLLING: true
+    volumes:
+      - .:/app
+    ports:
+      - "3000:3000"
+    command: ["sh", "-c", "pnpm install && pnpm run dev"]
