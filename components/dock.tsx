@@ -118,6 +118,7 @@ function Dock({}: Props) {
                         // @ts-ignore
                         items={shortcuts}
                         onSortEnd={handleOnSortEnd}
+                        pressDelay={100}
                     />
                 ) : (
                     <div className="flex items-center justify-between mx-auto">
