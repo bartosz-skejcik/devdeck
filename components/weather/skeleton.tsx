@@ -9,18 +9,18 @@ function WeatherSkeleton({}: Props) {
         <Card className="grid grid-cols-1 col-span-2 grid-rows-1 row-span-4 pt-2.5 2xl:pt-5 2xl:row-span-3 place-items-center rounded-xl">
             <CardContent className="w-full h-full col-span-1 row-span-1">
                 <div className="flex flex-col items-center justify-center w-full">
-                    <h2 className="w-1/3 h-6 text-xl font-semibold rounded bg-neutral-900 2xl:text-2xl animate-pulse">
+                    <h2 className="w-1/3 h-6 text-xl font-semibold rounded bg-neutral-300 dark:bg-neutral-900 2xl:text-2xl animate-pulse">
                         {/* Skeleton for forecast.name */}
                     </h2>
-                    <p className="w-1/2 h-4 mt-2 text-xs rounded bg-neutral-900 2xl:text-sm text-muted-foreground animate-pulse">
+                    <p className="w-1/2 h-4 mt-2 text-xs rounded bg-neutral-300 dark:bg-neutral-900 2xl:text-sm text-muted-foreground animate-pulse">
                         {/* Skeleton for date */}
                     </p>
                 </div>
                 <div className="flex flex-col items-center justify-center w-full mt-2 2xl:mt-6">
-                    <h1 className="w-1/3 h-24 text-6xl rounded bg-neutral-900 2xl:text-8xl text-foreground/90 animate-pulse">
+                    <h1 className="w-1/3 h-24 text-6xl rounded bg-neutral-300 dark:bg-neutral-900 2xl:text-8xl text-foreground/90 animate-pulse">
                         {/* Skeleton for forecast.main.temp */}
                     </h1>
-                    <h3 className="w-1/2 h-6 mt-2 text-lg rounded bg-neutral-900 2xl:text-xl animate-pulse">
+                    <h3 className="w-1/2 h-6 mt-2 text-lg rounded bg-neutral-300 dark:bg-neutral-900 2xl:text-xl animate-pulse">
                         {/* Skeleton for forecast.weather[0].description */}
                     </h3>
                 </div>
@@ -29,7 +29,7 @@ function WeatherSkeleton({}: Props) {
                         <div className="flex flex-col items-center justify-center w-1/3 gap-2">
                             <div className="flex flex-col items-center">
                                 <Wind className="w-6 h-6 text-foreground" />
-                                <p className="w-10 h-4 mt-1 mb-1 text-sm rounded bg-neutral-800 animate-pulse">
+                                <p className="w-10 h-4 mt-1 mb-1 text-sm rounded bg-neutral-400 dark:bg-neutral-800 animate-pulse">
                                     {/* Skeleton for forecast.wind.speed */}
                                 </p>
                                 <p className="text-xs text-muted-foreground">
@@ -40,7 +40,7 @@ function WeatherSkeleton({}: Props) {
                         <div className="flex flex-col items-center justify-center w-1/3 gap-2">
                             <div className="flex flex-col items-center">
                                 <Thermometer className="w-6 h-6 text-foreground" />
-                                <p className="w-10 h-4 mt-1 mb-1 text-sm rounded bg-neutral-800 animate-pulse">
+                                <p className="w-10 h-4 mt-1 mb-1 text-sm rounded bg-neutral-400 dark:bg-neutral-800 animate-pulse">
                                     {/* Skeleton for forecast.main.humidity */}
                                 </p>
                                 <p className="text-xs text-muted-foreground">
@@ -51,7 +51,7 @@ function WeatherSkeleton({}: Props) {
                         <div className="flex flex-col items-center justify-center w-1/3 gap-2">
                             <div className="flex flex-col items-center">
                                 <GaugeCircle className="w-6 h-6 text-foreground" />
-                                <p className="w-10 h-4 mt-1 mb-1 text-sm rounded bg-neutral-800 animate-pulse">
+                                <p className="w-10 h-4 mt-1 mb-1 text-sm rounded bg-neutral-400 dark:bg-neutral-800 animate-pulse">
                                     {/* Skeleton for some other data */}
                                 </p>
                                 <p className="text-xs text-muted-foreground">
