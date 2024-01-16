@@ -5,8 +5,8 @@ type Props = {};
 
 function ClockWidget({}: Props) {
     const [time, setTime] = useState({
-        hours: 12,
-        minutes: "00",
+        hours: new Date().getHours(),
+        minutes: new Date().getMinutes().toString(),
     });
     const date = setInterval(() => {
         const date = new Date();
