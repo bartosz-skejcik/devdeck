@@ -8,8 +8,6 @@ type Props = {};
 function WeatherWidget({}: Props) {
     const { forecast, loading } = useForecast();
 
-    if (loading && !forecast) return null;
-
     // Icon url
     // https://openweathermap.org/img/wn/10d@2x.png
 
