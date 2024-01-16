@@ -41,6 +41,8 @@ function ArticleReadModal({}: Props) {
 
     useEffect(() => {
         async function getArticles() {
+            if (!currentlyReadArticle || !currentlyReadArticle.user) return;
+
             const res = await fetch(
                 `https://dev.to/api/articles?username=${currentlyReadArticle?.user.username}&per_page=4`
             );
@@ -74,7 +76,8 @@ function ArticleReadModal({}: Props) {
 
         getArticles().then((articles) =>
             setMoreArticles(
-                articles.filter((a) => a.id !== currentlyReadArticle?.id)
+                articles &&
+                    articles.filter((a) => a.id !== currentlyReadArticle?.id)
             )
         );
     }, [currentlyReadArticle]);
@@ -141,32 +144,35 @@ function ArticleReadModal({}: Props) {
                     ></article>
                 </div>
                 <div className="flex flex-col items-start justify-start col-span-2 pt-8 pl-4 pr-8 gap-y-5">
-                    <Link
-                        href={`https://dev.to/${currentlyReadArticle?.user.username}`}
-                        className="flex items-center justify-center w-full gap-3 p-2 border rounded-sm border-border"
-                    >
-                        <Image
-                            src={currentlyReadArticle?.user.profile_image!}
-                            alt={currentlyReadArticle?.user.name!}
-                            width={45}
-                            height={45}
-                            className="rounded-full"
-                        />
-                        <div className="flex flex-col items-start h-full justify-stretch grow">
-                            <h3 className="text-lg font-semibold text-start">
-                                {currentlyReadArticle?.user.name}
-                            </h3>
-                            <p className="text-sm text-muted-foreground">
-                                @{currentlyReadArticle?.user.username}
-                            </p>
-                        </div>
-                    </Link>
+                    {currentlyReadArticle?.user && (
+                        <Link
+                            href={`https://dev.to/${currentlyReadArticle?.user.username}`}
+                            className="flex items-center justify-center w-full gap-3 p-2 border rounded-sm border-border"
+                        >
+                            <Image
+                                src={currentlyReadArticle?.user.profile_image!}
+                                alt={currentlyReadArticle?.user.name!}
+                                width={45}
+                                height={45}
+                                className="rounded-full"
+                            />
+                            <div className="flex flex-col items-start h-full justify-stretch grow">
+                                <h3 className="text-lg font-semibold text-start">
+                                    {currentlyReadArticle?.user.name}
+                                </h3>
+                                <p className="text-sm text-muted-foreground">
+                                    @{currentlyReadArticle?.user.username}
+                                </p>
+                            </div>
+                        </Link>
+                    )}
                     {moreArticles && moreArticles?.length > 0 && (
                         <div className="flex flex-col items-start justify-center w-full gap-2 p-2 border divide-y rounded-sm divide-muted-foreground dark:divide-neutral-800 border-border">
                             <h3 className="font-semibold text-left">
                                 More from{" "}
                                 <span className="text-primary">
-                                    {currentlyReadArticle?.user.name}
+                                    {currentlyReadArticle?.user &&
+                                        currentlyReadArticle?.user.name}
                                 </span>
                             </h3>
                             {moreArticles?.map((article) => (
