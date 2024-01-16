@@ -25,7 +25,9 @@ function BlockWall({
                 >
                     {title}
                 </h1>
-                <p className="text-center text-foreground">{description}</p>
+                <p className="text-center text-foreground text-md">
+                    {description}
+                </p>
             </div>
             <div className="flex flex-col items-center justify-center mt-4 space-y-2">
                 {children}
