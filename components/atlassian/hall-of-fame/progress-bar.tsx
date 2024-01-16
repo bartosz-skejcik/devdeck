@@ -6,39 +6,6 @@ type Props = {
     color: string;
 };
 
-const colors = [
-    {
-        name: "yellow",
-        hex: "#ca8a04",
-        value: 600,
-    },
-    {
-        name: "yellow",
-        hex: "#eab308",
-        value: 500,
-    },
-    {
-        name: "green",
-        hex: "#65a30d",
-        value: 600,
-    },
-    {
-        name: "green",
-        hex: "#84cc16",
-        value: 500,
-    },
-    {
-        name: "blue",
-        hex: "#0284c7",
-        value: 600,
-    },
-    {
-        name: "blue",
-        hex: "#0ea5e9",
-        value: 500,
-    },
-];
-
 const calculatedColorGradientClassName = (color: string) => {
     switch (color) {
         case "yellow":
