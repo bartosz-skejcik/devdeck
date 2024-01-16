@@ -6,7 +6,7 @@ import { useUserPreferences } from "@/stores/user-preferences";
 import { useAppStore } from "@/stores/app-store";
 import useStore from "@/hooks/use-store";
 import Shortcut from "@/components/shortcut";
-import ShortcutSkeleton from "./shortcut/skeleton";
+import ShortcutSkeleton from "../shortcut/skeleton";
 import { Tab } from "@/types.d";
 import SettingsDropdown from "@/components/dock/dropdown/settings";
 import AccountDropdown from "@/components/dock/dropdown/account";
