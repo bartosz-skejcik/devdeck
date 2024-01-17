@@ -18,13 +18,16 @@ function ArticlesWidget({ articles }: Props) {
     }, [articles]);
 
     return (
-        <Card className="flex items-center justify-center col-span-3 row-span-5 py-2 2xl:row-span-3 2xl:col-span-2">
+        <Card
+            id="news-widget"
+            className="flex items-center justify-center col-span-3 row-span-5 py-2 2xl:row-span-3 2xl:col-span-2"
+        >
             <CardContent className="flex flex-col items-start justify-between w-full h-full">
                 <h3 className="mb-1 text-lg font-semibold">
                     Most Recent Articles
                 </h3>
                 <div className="flex w-full flex-col items-center justify-center space-y-[1.35vh]">
-                    {mostRecentArticles.map((article) => (
+                    {mostRecentArticles.map((article, index) => (
                         <Article key={article.id} article={article} />
                     ))}
                 </div>

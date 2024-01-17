@@ -41,6 +41,7 @@ export interface IUserPreferences {
     filterTags: IUserTag[];
     searchEnabled: boolean;
     connections: IConnection[];
+    hasTakenTour: boolean;
 }
 
 // App

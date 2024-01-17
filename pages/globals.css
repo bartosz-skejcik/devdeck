@@ -72,3 +72,80 @@
 ::-webkit-scrollbar-thumb {
     @apply bg-primary;
 }
+
+/* !! DRIVER.JS CUSTOMIZATION !! */
+
+/* Class assigned to popover wrapper */
+.driver-popover {
+    @apply bg-background text-foreground rounded-xl !important;
+    border: 0.15rem solid hsl(var(--primary)) !important;
+}
+
+/* Arrow pointing towards the highlighted element */
+.driver-popover-arrow {
+    /* border-color: hsl(var(--primary)) !important; */
+    border: 8px solid hsl(var(--primary)) !important;
+}
+
+.driver-popover-arrow-side-bottom {
+    bottom: 100% !important;
+    border-left-color: transparent !important;
+    border-top-color: transparent !important;
+    border-right-color: transparent !important;
+}
+
+.driver-popover-arrow-side-top {
+    top: 100% !important;
+    border-left-color: transparent !important;
+    border-bottom-color: transparent !important;
+    border-right-color: transparent !important;
+}
+
+.driver-popover-arrow-side-left {
+    left: 100% !important;
+    border-top-color: transparent !important;
+    border-right-color: transparent !important;
+    border-bottom-color: transparent !important;
+}
+
+.driver-popover-arrow-side-right {
+    right: 100% !important;
+    border-top-color: transparent !important;
+    border-left-color: transparent !important;
+    border-bottom-color: transparent !important;
+}
+
+/* Title and description */
+.driver-popover-title {
+}
+.driver-popover-description {
+    @apply text-muted-foreground !important;
+}
+
+/* Close button displayed on the top right corner */
+.driver-popover-close-btn {
+    @apply text-muted-foreground text-2xl mr-1 mt-1 !important;
+}
+
+.driver-popover-close-btn:hover {
+    @apply text-foreground !important;
+}
+
+/* Footer of the popover displaying progress and navigation buttons */
+.driver-popover-footer {
+}
+
+.driver-popover-progress-text {
+}
+
+.driver-popover-prev-btn {
+    /* remove the text shadow */
+    text-shadow: none !important;
+    @apply text-foreground bg-secondary font-medium text-sm border-none px-3 py-1 hover:shadow-lg hover:shadow-neutral-300 dark:hover:shadow-secondary transition-all duration-200 !important;
+}
+
+.driver-popover-next-btn {
+    /* remove the text shadow */
+    text-shadow: none !important;
+    @apply text-white bg-primary font-medium text-sm border-none px-3 py-1 hover:shadow-lg hover:shadow-primary transition-all duration-200 !important;
+}

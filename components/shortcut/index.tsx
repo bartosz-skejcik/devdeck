@@ -55,6 +55,7 @@ function Shortcut({ shortcut }: Props) {
                     <TooltipTrigger>
                         <ContextMenuTrigger className="group" asChild>
                             <Button
+                                id={shortcut.id == 1 ? "shortcut-initial" : ""}
                                 variant="outline"
                                 size="icon"
                                 className="mx-3"

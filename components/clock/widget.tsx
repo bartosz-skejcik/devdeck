@@ -19,7 +19,10 @@ function ClockWidget({}: Props) {
         });
     }, 1000);
     return (
-        <Card className="flex items-center justify-center col-span-2 col-start-1 row-span-1 row-start-1 pt-[1.35rem] 2xl:row-start-1 bg-background">
+        <Card
+            id="clock-widget"
+            className="flex items-center justify-center col-span-2 col-start-1 row-span-1 row-start-1 pt-[1.35rem] 2xl:row-start-1 bg-background"
+        >
             <CardContent className="flex items-center justify-center w-full h-full grow">
                 <div className="flex flex-col items-center justify-center h-full grow">
                     <div className="text-2xl font-semibold 2xl:-mb-0 2xl:text-5xl">

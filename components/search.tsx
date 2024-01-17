@@ -25,6 +25,7 @@ function Search({}: Props) {
     };
     return (
         <form
+            id="search-widget"
             onSubmit={handleSearch}
             className="flex items-center justify-center w-full gap-3 px-4 py-2 transition-colors duration-200 border rounded-lg border-border bg-background dark:text-foreground hover:border-primary"
         >

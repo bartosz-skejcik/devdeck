@@ -33,7 +33,10 @@ function WeatherWidget({}: Props) {
     // https://openweathermap.org/img/wn/10d@2x.png
 
     return forecast ? (
-        <Card className="grid grid-cols-1 col-span-2 grid-rows-1 row-span-4 pt-2.5 2xl:pt-5 2xl:row-span-3 place-items-center rounded-xl">
+        <Card
+            id="weather-widget"
+            className="grid grid-cols-1 col-span-2 grid-rows-1 row-span-4 pt-2.5 2xl:pt-5 2xl:row-span-3 place-items-center rounded-xl"
+        >
             <CardContent className="w-full h-full col-span-1 row-span-1">
                 <div className="flex flex-col items-center justify-center w-full">
                     <h2 className="text-xl font-semibold 2xl:text-2xl">

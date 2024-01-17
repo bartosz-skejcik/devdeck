@@ -66,52 +66,66 @@ function Dock({}: Props) {
     }
 
     return (
-        <div className="flex items-center w-full p-2 border rounded-lg border-border justify-evenly bg-background text-foreground">
-            <div className="flex items-center justify-start w-1/5 gap-3">
-                <Button variant="ghost" size="icon">
-                    <Home
-                        onClick={() => {
-                            setCurrentTab && setCurrentTab(Tab.home);
-                        }}
-                        size={24}
-                        className={currentTab == "home" ? "text-primary" : ""}
-                    />
-                </Button>
-                <Button variant="ghost" size="icon">
-                    <Newspaper
-                        onClick={() => {
-                            setCurrentTab && setCurrentTab(Tab.news);
-                        }}
-                        size={24}
-                        className={currentTab == "news" ? "text-primary" : ""}
-                    />
-                </Button>
-                {connections &&
-                    connections.map(
-                        (con) =>
-                            con.name == "Atlassian" && (
-                                <Button
-                                    key={con.apiKey}
-                                    variant="ghost"
-                                    size="icon"
-                                >
-                                    <Trello
-                                        onClick={() => {
-                                            setCurrentTab &&
-                                                setCurrentTab(Tab.atlassian);
-                                        }}
-                                        size={24}
-                                        className={
-                                            currentTab == "atlassian"
-                                                ? "text-primary"
-                                                : ""
-                                        }
-                                    />
-                                </Button>
-                            )
-                    )}
+        <div
+            id="dock"
+            className="flex items-center w-full p-2 border rounded-lg border-border justify-evenly bg-background text-foreground"
+        >
+            <div className="flex items-center justify-start w-1/5">
+                <div id="tabs" className="flex items-center gap-3 w-fit">
+                    <Button variant="ghost" size="icon">
+                        <Home
+                            onClick={() => {
+                                setCurrentTab && setCurrentTab(Tab.home);
+                            }}
+                            size={24}
+                            className={
+                                currentTab == "home" ? "text-primary" : ""
+                            }
+                        />
+                    </Button>
+                    <Button variant="ghost" size="icon">
+                        <Newspaper
+                            onClick={() => {
+                                setCurrentTab && setCurrentTab(Tab.news);
+                            }}
+                            size={24}
+                            className={
+                                currentTab == "news" ? "text-primary" : ""
+                            }
+                        />
+                    </Button>
+                    {connections &&
+                        connections.map(
+                            (con) =>
+                                con.name == "Atlassian" && (
+                                    <Button
+                                        key={con.apiKey}
+                                        variant="ghost"
+                                        size="icon"
+                                    >
+                                        <Trello
+                                            onClick={() => {
+                                                setCurrentTab &&
+                                                    setCurrentTab(
+                                                        Tab.atlassian
+                                                    );
+                                            }}
+                                            size={24}
+                                            className={
+                                                currentTab == "atlassian"
+                                                    ? "text-primary"
+                                                    : ""
+                                            }
+                                        />
+                                    </Button>
+                                )
+                        )}
+                </div>
             </div>
-            <div className="flex items-center justify-between gap-6 mx-auto">
+            <div
+                id="shortcuts"
+                className="flex items-center justify-between gap-6 mx-auto"
+            >
                 {shortcuts ? (
                     <SortableList
                         axis="x"
@@ -128,6 +142,7 @@ function Dock({}: Props) {
                     </div>
                 )}
                 <Button
+                    id="shortcut-add"
                     onClick={() => {
                         setNewShortcutModal(true);
                     }}

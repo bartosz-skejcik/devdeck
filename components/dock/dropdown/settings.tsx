@@ -53,7 +53,7 @@ function SettingsDropdown({}: Props) {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon">
+                <Button id="dock-settings" variant="ghost" size="icon">
                     <Settings2 size={24} />
                 </Button>
             </DropdownMenuTrigger>

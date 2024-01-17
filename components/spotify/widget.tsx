@@ -77,7 +77,10 @@ function SpotifyWidget({}: Props) {
 
     return (
         !loading && (
-            <Card className="relative grid grid-cols-1 col-span-2 col-start-1 grid-rows-1 row-span-3 row-start-2 pt-4 overflow-hidden 2xl:pt-5 2xl:row-span-2 rounded-xl">
+            <Card
+                id="spotify-widget"
+                className="relative grid grid-cols-1 col-span-2 col-start-1 grid-rows-1 row-span-3 row-start-2 pt-4 overflow-hidden 2xl:pt-5 2xl:row-span-2 rounded-xl"
+            >
                 {!currentlyPlayingTrack?.item &&
                     !currentlyPlayingTrack?.item && (
                         <BlockWall

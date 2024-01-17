@@ -29,6 +29,7 @@ type Actions = {
     editConnection: (providerName: string, connection: IConnection) => void;
     removeConnection: (connectionName: string) => void;
     generateClientStateHash: () => string;
+    setHasTakenTour: (hasTakenTour: boolean) => void;
 };
 
 const INITIAL_STATE: IUserPreferences = {
@@ -43,6 +44,7 @@ const INITIAL_STATE: IUserPreferences = {
     filterTags: [],
     searchEnabled: true,
     connections: [],
+    hasTakenTour: false,
 };
 
 export const useUserPreferences = create<IUserPreferences & Actions>()(
@@ -231,6 +233,9 @@ export const useUserPreferences = create<IUserPreferences & Actions>()(
                 const hash = generateRandomString(32);
 
                 return hash;
+            },
+            setHasTakenTour: (hasTakenTour: boolean) => {
+                set({ hasTakenTour });
             },
         }),
         {
