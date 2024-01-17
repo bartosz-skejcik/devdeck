@@ -5,6 +5,27 @@ import WeatherSkeleton from "./skeleton";
 
 type Props = {};
 
+const temperatureBasedColor = (temp: number): string => {
+    switch (true) {
+        case temp < -10:
+            return "text-blue-600";
+        case temp < 0:
+            return "text-blue-400";
+        case temp < 10:
+            return "text-green-200";
+        case temp < 20:
+            return "text-yellow-200";
+        case temp < 25:
+            return "text-yellow-300";
+        case temp < 30:
+            return "text-amber-400";
+        case temp < 40:
+            return "text-orange-500";
+        default:
+            return "text-red-500";
+    }
+};
+
 function WeatherWidget({}: Props) {
     const { forecast, loading } = useForecast();
 
@@ -28,7 +49,13 @@ function WeatherWidget({}: Props) {
                 </div>
                 <div className="flex flex-col items-center justify-center w-full mt-2 2xl:mt-5">
                     <h1 className="text-6xl 2xl:text-8xl text-foreground/90">
-                        {Math.round(forecast.main.temp)}°
+                        <span
+                            className={temperatureBasedColor(
+                                Math.round(forecast.main.temp)
+                            )}
+                        >
+                            {Math.round(forecast.main.temp)}°
+                        </span>
                     </h1>
                     <h3 className="text-lg 2xl:text-xl">
                         {forecast.weather &&
