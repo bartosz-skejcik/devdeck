@@ -1,5 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 type Props = {};
 
@@ -8,7 +8,7 @@ function ClockWidget({}: Props) {
         hours: new Date().getHours(),
         minutes: new Date().getMinutes().toString(),
     });
-    const date = setInterval(() => {
+    const date = useMemo(() => setInterval(() => {
         const date = new Date();
         const hours = date.getHours();
         const minutes = date.getMinutes();
@@ -17,7 +17,14 @@ function ClockWidget({}: Props) {
             hours,
             minutes: minutes < 10 ? `0${minutes}` : `${minutes}`,
         });
-    }, 1000);
+    }, 1000), []);
+
+    useEffect(() => {
+        return () => {
+            clearInterval(date);
+        };
+    }, [date])
+
     return (
         <Card
             id="clock-widget"
