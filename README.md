@@ -2,6 +2,12 @@
 
 [!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/j5on)
 
+### Stats
+
+[![Commits](https://img.shields.io/github/commit-activity/t/bartosz-skejcik/devdeck)](https://github.com/bartosz-skejcik/devdeck)
+[![Star on GitHub](https://img.shields.io/github/stars/bartosz-skejcik/devdeck.svg?style=social)](https://github.com/bartosz-skejcik/devdeck)
+[![Contributors](https://img.shields.io/github/contributors/bartosz-skejcik/devdeck?style=social&logo=github)](https://github.com/bartosz-skejcik/devdeck)
+
 ## Description
 
 This project is a new tab extension that enhances the functionality of your browser's new tab page. It allows you to customize the appearance and add useful features to make your browsing experience more productive.
@@ -66,7 +72,7 @@ We welcome contributions from the community. If you'd like to contribute, here a
 3. Clone the repository to your local machine.
 
     ```bash
-    git clone https://github.com/bartosz-skejcik/devdeck.git
+    git clone https://github.com/<your-username>/devdeck.git
     ```
 
 4. Navigate to the project directory:
