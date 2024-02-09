@@ -79,3 +79,43 @@ export interface ITag {
     bg_color_hex: string;
     text_color_hex: string;
 }
+
+// Calendar
+
+export interface IEvent {
+    kind: string;
+    etag: string;
+    id: string;
+    status: string;
+    htmlLink: string;
+    created: Date;
+    updated: Date;
+    summary: string;
+    description: string;
+    colorId: string;
+    creator: Creator;
+    organizer: Creator;
+    start: End;
+    end: End;
+    recurringEventId: string;
+    originalStartTime: End;
+    iCalUID: string;
+    sequence: number;
+    reminders: Reminders;
+    eventType: string;
+}
+
+export interface Creator {
+    email: string;
+    displayName: string;
+    self: boolean;
+}
+
+export interface End {
+    dateTime: Date;
+    timeZone: string;
+}
+
+export interface Reminders {
+    useDefault: boolean;
+}
