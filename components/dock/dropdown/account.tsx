@@ -12,17 +12,26 @@ import { useAppStore } from "@/stores/app-store";
 import { useUserPreferences } from "@/stores/user-preferences";
 import { driver } from "driver.js";
 import { Workflow, User, LifeBuoyIcon } from "lucide-react";
+import Image from "next/image";
+import { useHasHydrated } from "@/hooks/user-has-hydrated";
 
 type Props = {};
 
 function AccountDropdown({}: Props) {
+    const hasHydrated = useHasHydrated();
     const setAccountConnectionsModal = useAppStore(
-        (state) => state.setAccountConnectionsModal
+        (state) => state.setAccountConnectionsModal,
     );
 
     const setHasTakenTour = useUserPreferences(
-        (state) => state.setHasTakenTour
+        (state) => state.setHasTakenTour,
     );
+
+    const userData = useUserPreferences((state) => state.userData);
+    const fullName =
+        userData !== undefined
+            ? `${userData.firstName} ${userData.lastName}`
+            : null;
 
     const takeATour = () => {
         const config = driverObj(setHasTakenTour);
@@ -31,16 +40,29 @@ function AccountDropdown({}: Props) {
 
     return (
         <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-                <Button
-                    id="dock-account"
-                    variant="outline"
-                    className="flex items-center gap-2"
-                >
-                    <User size={24} />
-                    <p>Bartek Paczesny</p>
-                </Button>
-            </DropdownMenuTrigger>
+            {hasHydrated && userData ? (
+                <DropdownMenuTrigger asChild>
+                    <Button
+                        id="dock-account"
+                        variant="outline"
+                        className="flex items-center gap-2"
+                    >
+                        {userData.imageUrl?.trim() !== "" &&
+                        userData.imageUrl !== undefined ? (
+                            <Image
+                                src={userData.imageUrl}
+                                alt={fullName!}
+                                height={24}
+                                width={24}
+                                className="rounded"
+                            />
+                        ) : (
+                            <User size={24} />
+                        )}
+                        <p>{fullName}</p>
+                    </Button>
+                </DropdownMenuTrigger>
+            ) : null}
             <DropdownMenuContent>
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />

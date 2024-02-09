@@ -19,56 +19,66 @@ import { useAppStore } from "@/stores/app-store";
 import { useUserPreferences } from "@/stores/user-preferences";
 import { BackgroundBlur } from "@/types.d";
 import clsx from "clsx";
+import { OnboardingModal } from "@/components/modals/OnboardingModal";
+import { useHasHydrated } from "@/hooks/user-has-hydrated";
 
 export default function Page() {
+    const hasHydrated = useHasHydrated();
     const currentTab = useStore(useAppStore, (state) => state.currentTab);
     const wallpaper = useStore(useUserPreferences, (state) => state.wallpaper);
     const backgroundBlur = useStore(
         useUserPreferences,
-        (state) => state.backgroundBlur
+        (state) => state.backgroundBlur,
     );
     const searchEnabled = useStore(
         useUserPreferences,
-        (state) => state.searchEnabled
+        (state) => state.searchEnabled,
     );
+
+    const userData = useUserPreferences((state) => state.userData);
 
     return (
         <>
-            <AccountConnectionsModal />
-            <DisplaySettingsModal />
-            <NewsSettingsModal />
-            <ArticleReadModal />
-            <EditShortcutModal />
-            <ChangeWallpaperModal />
-            <NewShortcutModal />
-            <div
-                className={clsx(
-                    "absolute inset-0 z-0 w-full h-full opacity-25 dark:opacity-10 bg-center bg-no-repeat bg-cover",
-                    backgroundBlur == BackgroundBlur.none
-                        ? ""
-                        : backgroundBlur == BackgroundBlur.low
-                        ? "blur-[2px]"
-                        : backgroundBlur == BackgroundBlur.medium
-                        ? "blur-sm"
-                        : backgroundBlur == BackgroundBlur.high
-                        ? "blur-md"
-                        : ""
-                )}
-                style={
-                    wallpaper
-                        ? {
-                              backgroundImage: `url(${wallpaper})`,
-                          }
-                        : {}
-                }
-            />
-            <section className="relative z-10 flex flex-col items-center justify-end w-screen h-screen gap-6 p-10 bg-center bg-cover">
-                <Dock />
-                {currentTab == "home" && <Home />}
-                {currentTab == "atlassian" && <Atlassian />}
-                {currentTab == "news" && <Articles />}
-                {searchEnabled && <Search />}
-            </section>
+            {hasHydrated && userData === undefined && <OnboardingModal />}
+            {hasHydrated && userData !== undefined && (
+                <>
+                    <AccountConnectionsModal />
+                    <DisplaySettingsModal />
+                    <NewsSettingsModal />
+                    <ArticleReadModal />
+                    <EditShortcutModal />
+                    <ChangeWallpaperModal />
+                    <NewShortcutModal />
+                    <div
+                        className={clsx(
+                            "absolute inset-0 z-0 w-full h-full opacity-25 dark:opacity-10 bg-center bg-no-repeat bg-cover",
+                            backgroundBlur == BackgroundBlur.none
+                                ? ""
+                                : backgroundBlur == BackgroundBlur.low
+                                  ? "blur-[2px]"
+                                  : backgroundBlur == BackgroundBlur.medium
+                                    ? "blur-sm"
+                                    : backgroundBlur == BackgroundBlur.high
+                                      ? "blur-md"
+                                      : "",
+                        )}
+                        style={
+                            wallpaper
+                                ? {
+                                      backgroundImage: `url(${wallpaper})`,
+                                  }
+                                : {}
+                        }
+                    />
+                    <section className="relative z-10 flex flex-col items-center justify-end w-screen h-screen gap-6 p-10 bg-center bg-cover">
+                        <Dock />
+                        {currentTab == "home" && <Home />}
+                        {currentTab == "atlassian" && <Atlassian />}
+                        {currentTab == "news" && <Articles />}
+                        {searchEnabled && <Search />}
+                    </section>
+                </>
+            )}
             {/* <Toaster /> */}
         </>
     );
