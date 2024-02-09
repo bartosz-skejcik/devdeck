@@ -5,6 +5,7 @@ import { persist } from "zustand/middleware";
 import {
     BackgroundBlur,
     IConnection,
+    IUserData,
     IUserPreferences,
     IUserTag,
     SearchEngine,
@@ -17,7 +18,7 @@ type Actions = {
     addShortcut: (shortcut: Shortcut) => void;
     editShortcut: (
         shortcut: Shortcut,
-        currentlyEditedShortcut: Shortcut
+        currentlyEditedShortcut: Shortcut,
     ) => void;
     changeShortcutIndex: (from: number, to: number) => void;
     changeWallpaper: (wallpaper: string, blurLevel?: BackgroundBlur) => void;
@@ -30,6 +31,7 @@ type Actions = {
     removeConnection: (connectionName: string) => void;
     generateClientStateHash: () => string;
     setHasTakenTour: (hasTakenTour: boolean) => void;
+    setUserData: (userData: IUserData) => void;
 };
 
 const INITIAL_STATE: IUserPreferences = {
@@ -56,7 +58,7 @@ export const useUserPreferences = create<IUserPreferences & Actions>()(
             },
             addShortcut: (shortcut: Shortcut) => {
                 const exists = get().shortcuts.some(
-                    (s) => s.url === shortcut.url
+                    (s) => s.url === shortcut.url,
                 );
 
                 if (exists) {
@@ -72,13 +74,13 @@ export const useUserPreferences = create<IUserPreferences & Actions>()(
             removeShortcut: (shortcut: Shortcut) => {
                 // check if shortcut exists
                 const exists = get().shortcuts.some(
-                    (s) => s.url === shortcut.url
+                    (s) => s.url === shortcut.url,
                 );
 
                 if (exists) {
                     set({
                         shortcuts: get().shortcuts.filter(
-                            (s) => s.url !== shortcut.url
+                            (s) => s.url !== shortcut.url,
                         ),
                     });
                 } else {
@@ -87,10 +89,10 @@ export const useUserPreferences = create<IUserPreferences & Actions>()(
             },
             editShortcut: (
                 newShortcut: Shortcut,
-                currentlyEditedShortcut: Shortcut
+                currentlyEditedShortcut: Shortcut,
             ) => {
                 const exists = get().shortcuts.some(
-                    (s) => s.url === currentlyEditedShortcut.url
+                    (s) => s.url === currentlyEditedShortcut.url,
                 );
 
                 if (exists) {
@@ -98,7 +100,7 @@ export const useUserPreferences = create<IUserPreferences & Actions>()(
                         get().shortcuts.some(
                             (s) =>
                                 s.url === newShortcut.url &&
-                                s.url !== currentlyEditedShortcut.url
+                                s.url !== currentlyEditedShortcut.url,
                         );
 
                     if (newShortcutCollidesButNotWithItself) {
@@ -131,7 +133,7 @@ export const useUserPreferences = create<IUserPreferences & Actions>()(
             },
             changeWallpaper: (
                 wallpaper: string,
-                blurLevel?: BackgroundBlur
+                blurLevel?: BackgroundBlur,
             ) => {
                 if (blurLevel) {
                     set({ wallpaper, backgroundBlur: blurLevel });
@@ -144,13 +146,13 @@ export const useUserPreferences = create<IUserPreferences & Actions>()(
             },
             deleteTag: (tag: IUserTag) => {
                 const exists = get().filterTags.some(
-                    (t) => t.name === tag.name
+                    (t) => t.name === tag.name,
                 );
 
                 if (exists) {
                     set({
                         filterTags: get().filterTags.filter(
-                            (t) => t.name !== tag.name
+                            (t) => t.name !== tag.name,
                         ),
                     });
                 } else {
@@ -159,7 +161,7 @@ export const useUserPreferences = create<IUserPreferences & Actions>()(
             },
             addTag: (tag: IUserTag) => {
                 const exists = get().filterTags.some(
-                    (t) => t.name === tag.name
+                    (t) => t.name === tag.name,
                 );
 
                 if (exists) {
@@ -173,7 +175,7 @@ export const useUserPreferences = create<IUserPreferences & Actions>()(
             },
             addConnection: (connection: IConnection) => {
                 const exists = get().connections.some(
-                    (c) => c.name === connection.name
+                    (c) => c.name === connection.name,
                 );
 
                 if (exists) {
@@ -184,7 +186,7 @@ export const useUserPreferences = create<IUserPreferences & Actions>()(
             },
             editConnection: (providerName: string, connection: IConnection) => {
                 const exists = get().connections.some(
-                    (c) => c.name === providerName
+                    (c) => c.name === providerName,
                 );
 
                 if (exists) {
@@ -203,13 +205,13 @@ export const useUserPreferences = create<IUserPreferences & Actions>()(
             },
             removeConnection: (connectionName: string) => {
                 const exists = get().connections.some(
-                    (c) => c.name === connectionName
+                    (c) => c.name === connectionName,
                 );
 
                 if (exists) {
                     set({
                         connections: get().connections.filter(
-                            (c) => c.name !== connectionName
+                            (c) => c.name !== connectionName,
                         ),
                     });
                 } else {
@@ -224,22 +226,23 @@ export const useUserPreferences = create<IUserPreferences & Actions>()(
 
                     for (let i = 0; i < length; i++)
                         text += possible.charAt(
-                            Math.floor(Math.random() * possible.length)
+                            Math.floor(Math.random() * possible.length),
                         );
 
                     return text;
                 }
 
-                const hash = generateRandomString(32);
-
-                return hash;
+                return generateRandomString(32);
             },
             setHasTakenTour: (hasTakenTour: boolean) => {
                 set({ hasTakenTour });
             },
+            setUserData: (userData: IUserData) => {
+                set({ userData });
+            },
         }),
         {
             name: "user-preferences",
-        }
-    )
+        },
+    ),
 );

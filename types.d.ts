@@ -33,6 +33,13 @@ export interface IConnection {
     email: string;
     organizationDomain?: string;
 }
+
+export interface IUserData {
+    firstName: string;
+    lastName: string;
+    imageUrl?: string;
+}
+
 export interface IUserPreferences {
     searchEngine: SearchEngine;
     shortcuts: Shortcut[];
@@ -42,6 +49,7 @@ export interface IUserPreferences {
     searchEnabled: boolean;
     connections: IConnection[];
     hasTakenTour: boolean;
+    userData?: IUserData;
 }
 
 // App
