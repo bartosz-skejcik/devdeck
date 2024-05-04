@@ -42,6 +42,7 @@ export interface IUserPreferences {
     searchEnabled: boolean;
     connections: IConnection[];
     hasTakenTour: boolean;
+    simpleMode: boolean;
 }
 
 // App

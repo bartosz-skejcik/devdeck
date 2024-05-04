@@ -30,6 +30,7 @@ type Actions = {
     removeConnection: (connectionName: string) => void;
     generateClientStateHash: () => string;
     setHasTakenTour: (hasTakenTour: boolean) => void;
+    setSimpleMode: (simpleMode: boolean) => void;
 };
 
 const INITIAL_STATE: IUserPreferences = {
@@ -45,6 +46,7 @@ const INITIAL_STATE: IUserPreferences = {
     searchEnabled: true,
     connections: [],
     hasTakenTour: false,
+    simpleMode: false,
 };
 
 export const useUserPreferences = create<IUserPreferences & Actions>()(
@@ -236,6 +238,9 @@ export const useUserPreferences = create<IUserPreferences & Actions>()(
             },
             setHasTakenTour: (hasTakenTour: boolean) => {
                 set({ hasTakenTour });
+            },
+            setSimpleMode: (simpleMode: boolean) => {
+                set({ simpleMode });
             },
         }),
         {
